@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div v-if="$props.tab !== 2">
     <input type="text" v-model="toDo">
     <button @click="pushToDo">Add</button>
   </div>
   <div>
     <ul>
-      <li v-for="(item, index) in data" :key="index">
+      <li v-for="(item, index) in toDos" :key="index">
         {{item}}
       </li>
     </ul>
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import {ref, reactive} from 'vue';
+import {ref} from 'vue';
 
 export default {
   name: "ToDoBody",
@@ -24,18 +24,25 @@ export default {
   },
   setup(props) {
     const toDo = ref('')
-    const itemInTabs = ['all', 'active', 'completed']
-
     const data = ref([])
+    const toDos = props.tab === 0 ? data.value : props.tab === 1 ? data.value.find(item => item === 'active') : data.value.find(item => item === 'completed')
 
     const pushToDo = () => {
-
+      data.value.push({
+        item: toDo.value,
+        status: 'active'
+      })
+    }
+    const completedToDo = (id) => {
+      data.value[id].status = 'completed'
+    }
+    const deleteToDo = (id) => {
+      data.value.splice(id, 1)
     }
 
     return {
-      toDo,
-      data,
-      pushToDo
+      toDo, data, toDos,
+      pushToDo, completedToDo, deleteToDo
     }
   }
 }

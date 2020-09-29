@@ -2,16 +2,20 @@
   <div class="container mx-auto pt-8">
     <Header/>
     <ToDo/>
+    <Footer/>
   </div>
 </template>
 <script>
 import Header from "@/components/Header";
 import ToDo from "@/components/ToDo";
+import Footer from "@/components/Footer";
+
 export default {
   name: 'App',
   components: {
     Header,
-    ToDo
+    ToDo,
+    Footer
   }
 }
 </script>
