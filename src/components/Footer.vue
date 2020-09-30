@@ -1,6 +1,6 @@
 <template>
-  <div class="flex justify-center">
-    <div class="text-center">
+  <div class="flex justify-center relative">
+    <div class="text-center fixed bottom-0 w-full bg-white">
       <a href="https://portfolio.devchallenges.io/YaromirKo">YaromirKo</a>
       <span class="mx-1">@</span>
       <a href="https://devchallenges.io/">DevChallenges.io</a>
