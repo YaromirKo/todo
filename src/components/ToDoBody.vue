@@ -2,7 +2,7 @@
   <div v-if="$props.tab !== 2" class="flex justify-around pt-8">
     <textarea  placeholder="Add something..." class="resize-none sm:w-4/5 w-3/5 rounded-input-text border-2 px-2 py-4 focus:bg-white focus:border-blue-400 outline-none"
                v-model="toDo" rows="1"></textarea>
-    <button @click="pushToDo" class="text-white rounded-input-text bg-blue-500 px-10 focus:outline-none">Add</button>
+    <button @click.prevent="pushToDo" class="text-white rounded-input-text bg-blue-500 px-10 focus:outline-none">Add</button>
   </div>
   <ul class="flex flex-col pt-6 px-5">
     <li v-for="item in getToDos" :key="item.id" class="py-2 flex justify-between items-center hover:bg-gray-200 rounded">
@@ -14,7 +14,10 @@
     </li>
   </ul>
   <div class="flex justify-end pr-5" v-if="$props.tab === 2 && getToDos.length">
-    <button @click="deleteAllToDos" class="text-white rounded-input-text bg-red-500 px-10 py-2 focus:outline-none">Delete all</button>
+    <button @click.prevent="deleteAllToDos" class="flex items-center text-white rounded-input-text text-xs bg-red-500 px-5 py-2 focus:outline-none">
+      <div class="material-icons cursor-pointer text-white">delete_outline</div>
+      delete all
+    </button>
   </div>
 </template>
 
