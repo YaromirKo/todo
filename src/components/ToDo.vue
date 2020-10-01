@@ -1,6 +1,6 @@
 <template>
-  <header class="sticky top-0">
-    <div class="flex justify-around border-b-2 mt-6 bg-white">
+  <header class="sticky top-0 mt-4">
+    <div class="flex justify-around border-b-2 bg-white">
       <div @click="toggleTab(0)" class="w-22 text-center font-semibold leading-4 cursor-pointer">
         <p class="my-6">All</p>
         <div :class="{'border-active': activeTab === 0}" class="border-transparent"></div>
