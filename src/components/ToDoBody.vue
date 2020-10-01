@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import {ref, reactive, computed} from 'vue';
+import {ref, computed,watchEffect} from 'vue';
 
 export default {
   name: "ToDoBody",
@@ -31,39 +31,40 @@ export default {
   setup(props) {
 
     const toDo = ref('')
-    const data = reactive([])
+    const data = ref(localStorage['data-todo'] ? JSON.parse(localStorage.getItem('data-todo')) : [])
 
     const getToDos = computed(() => {
-      return props.tab === 0 ? data : props.tab === 1 ? data.filter(item => !item.status) : data.filter(item => item.status)
+      return props.tab === 0 ? data.value : props.tab === 1 ? data.value.filter(item => !item.status) : data.value.filter(item => item.status)
+    })
+
+    watchEffect(() => {
+      localStorage.setItem('data-todo', JSON.stringify(data.value))
     })
 
     const pushToDo = () => {
       if (toDo.value != '') {
-        data.push({
-          id: data.length + 1,
+        data.value.push({
+          id: data.value.length + 1,
           item: toDo.value,
           status: false
         })
       }
       toDo.value = ''
     }
-    const completedToDo = (id) => {
-      data[id].status = !data[id].status;
-    }
     const deleteToDo = (id) => {
-      data.splice(data.findIndex(item => item.id === id), 1)
+      data.value.splice(data.value.findIndex(item => item.id === id), 1)
     }
     const deleteAllToDos = () => {
-      let tmp = data.filter(item => item.status)
+      let tmp = data.value.filter(item => item.status)
       tmp.forEach(item => {
-        data.splice(data.findIndex(el => el.id == item.id), 1)
+        data.value.splice(data.value.findIndex(el => el.id == item.id), 1)
       })
     }
 
     return {
       toDo, data,
       getToDos,
-      pushToDo, completedToDo, deleteToDo, deleteAllToDos
+      pushToDo, deleteToDo, deleteAllToDos
     }
   }
 }
@@ -73,7 +74,7 @@ export default {
 pre {
   white-space: pre-wrap;       /* css-3 */
   white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-  white-space: -pre-wrap;      /* Opera 4-6 */
+  /*white-space: -pre-wrap;      !* Opera 4-6 *!*/
   white-space: -o-pre-wrap;    /* Opera 7 */
   word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }
