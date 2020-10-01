@@ -1,9 +1,9 @@
 <template>
-  <div class="container mx-auto pt-8 sm:px-24">
+  <div class="container relative min-h-screen-95 mx-auto pt-8 sm:px-24">
     <Header/>
     <ToDo/>
-    <Footer/>
   </div>
+  <Footer/>
 </template>
 <script>
 import Header from "@/components/Header";

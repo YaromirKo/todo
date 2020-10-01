@@ -5,6 +5,9 @@ module.exports = {
   },
   purge: [],
   theme: {
+    minHeight: {
+      'screen-95': '95vh'
+    },
     variants: {
       backgroundColor: ['responsive', 'hover', 'focus'],
     },
