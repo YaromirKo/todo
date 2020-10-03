@@ -1,8 +1,5 @@
 module.exports = {
-  future: {
-    // removeDeprecatedGapUtilities: true,
-    // purgeLayersByDefault: true,
-  },
+
   enabled: process.env.NODE_ENV === 'production',
   content: [
     'components/**/*.vue',
