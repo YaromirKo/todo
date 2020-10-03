@@ -3,12 +3,11 @@ module.exports = {
     // removeDeprecatedGapUtilities: true,
     // purgeLayersByDefault: true,
   },
-  purge: [
-    "./pages/**/*.vue",
-    "./components/**/*.vue",
-    "./plugins/**/*.vue",
-    "./static/**/*.vue",
-    "./store/**/*.vue"
+  enabled: process.env.NODE_ENV === 'production',
+  content: [
+    'components/**/*.vue',
+    'pages/**/*.vue',
+    'plugins/**/*.js',
   ],
   theme: {
     minHeight: {
