@@ -3,7 +3,13 @@ module.exports = {
     // removeDeprecatedGapUtilities: true,
     // purgeLayersByDefault: true,
   },
-  purge: [],
+  purge: [
+    "./pages/**/*.vue",
+    "./components/**/*.vue",
+    "./plugins/**/*.vue",
+    "./static/**/*.vue",
+    "./store/**/*.vue"
+  ],
   theme: {
     minHeight: {
       'screen-95': '95vh'
