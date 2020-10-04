@@ -43,10 +43,10 @@ export default {
             .then(swreg => swreg.showNotification('Notifications granted', {
               body: 'Here is a first notification',
               vibrate: [300, 200, 300],
-              // actions: [
-              //     { action: 'confirm', title: 'Okay', icon: '/img/icons/android-chrome-192x192.png'},
-              //     { action: 'cancel', title: 'Cancel', icon: '/img/icons/android-chrome-192x192.png'}
-              // ],
+              actions: [
+                  { action: 'confirm', title: 'Okay', },
+                  { action: 'cancel', title: 'Cancel'}
+              ],
             }))
       }
     },
