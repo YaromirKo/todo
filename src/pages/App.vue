@@ -32,7 +32,11 @@ export default {
             alert('You probably do not like notifications?!');
           } else {
             console.log('A notification will be send from the service worker => This only works in production');
-            this.showNotification()
+            setTimeout(() => {
+              const audio = new Audio(require('@/assets/test.mp3'))
+              audio.play()
+              this.showNotification()
+            }, 10000)
           }
         })
       }
