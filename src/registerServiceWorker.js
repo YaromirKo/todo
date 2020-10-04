@@ -11,9 +11,11 @@ if (process.env.NODE_ENV === 'production') {
       )
     },
     registered () {
+      alert("Service worker has been registered.");
       console.log('Service worker has been registered.')
     },
     cached () {
+      alert("Content has been cached for offline use.");
       console.log('Content has been cached for offline use.')
     },
     updatefound () {
@@ -23,6 +25,7 @@ if (process.env.NODE_ENV === 'production') {
       console.log('New content is available; please refresh.')
     },
     offline () {
+      alert("New content is available; please refresh.")
       console.log('No internet connection found. App is running in offline mode.')
     },
     error (error) {
