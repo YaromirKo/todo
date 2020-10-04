@@ -1,21 +1,23 @@
 <template>
   <div v-if="$props.tab !== 2" class="flex justify-around pt-8">
-    <textarea  placeholder="Add something..." class="resize-none sm:w-4/5 w-3/5 rounded-input-text border-2 px-2 py-4 focus:bg-white focus:border-blue-400 outline-none"
-               v-model="toDo" rows="1"></textarea>
-    <button @click="pushToDo" class="text-white rounded-input-text bg-blue-500 px-10 focus:outline-none">Add</button>
+    <textarea  placeholder="Add something..." class="resize-none sm:w-4/5 w-10/12 rounded-input-text border-2 px-2 py-4 focus:bg-white focus:border-blue-200 outline-none"
+               v-model.trim="toDo" rows="1"></textarea>
+    <div>
+      <button @click="pushToDo" class="text-white rounded-input-text bg-blue-500 px-10 py-4 focus:outline-none">Add</button>
+    </div>
   </div>
-  <ul class="flex flex-col pt-6 px-5">
-    <li v-for="item in getToDos" :key="item.id" class="py-2 flex justify-between items-center hover:bg-gray-200 rounded">
+  <ul class="flex flex-col sm:pt-6 sm:px-5">
+    <li v-for="item in getToDos" :key="item.id" class="p-2 flex justify-between items-center hover:bg-gray-200 rounded">
       <div class="flex items-center w-4/5">
         <input v-model="item.status" type="checkbox" class="form-checkbox cursor-pointer mr-2">
         <pre class="text-lg font-medium leading-5 w-4/5" :class="{'line-through': item.status}">{{item.item}}</pre>
       </div>
-      <div @click="deleteToDo(item.id)" class="material-icons cursor-pointer">delete_outline</div>
+      <div v-if="$props.tab !== 0" @click="deleteToDo(item.id)" class="material-icons cursor-pointer">delete_outline</div>
     </li>
   </ul>
   <div class="flex justify-end pr-5" v-if="$props.tab === 2 && getToDos.length">
     <button @click="deleteAllToDos" class="flex items-center text-white rounded-input-text text-xs bg-red-500 px-5 py-2 focus:outline-none">
-      <div class="material-icons cursor-pointer text-white">delete_outline</div>
+      <span class="material-icons cursor-pointer text-white">delete_outline</span>
       delete all
     </button>
   </div>
