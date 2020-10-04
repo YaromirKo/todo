@@ -21,6 +21,7 @@ export default {
 </script>
 
 <style>
+
 ::-webkit-scrollbar {
   width: 10px;
 }

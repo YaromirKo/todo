@@ -1,20 +1,26 @@
 <template>
   <div v-if="$props.tab !== 2" class="flex justify-around pt-8">
     <textarea  placeholder="Add something..." class="resize-none sm:w-4/5 w-10/12 rounded-input-text border-2 px-2 py-4 focus:bg-white focus:border-blue-200 outline-none"
-               v-model.trim="toDo" rows="1"></textarea>
+               v-model.trim="toDo" rows="1" autofocus></textarea>
     <div>
       <button @click="pushToDo" class="text-white rounded-input-text bg-blue-500 px-10 py-4 focus:outline-none">Add</button>
     </div>
   </div>
+
   <ul class="flex flex-col sm:pt-6 sm:px-5">
-    <li v-for="item in getToDos" :key="item.id" class="p-2 flex justify-between items-center hover:bg-gray-200 rounded">
+    <li v-for="(item, index) in getToDos" :key="item.id" class="p-2 flex justify-between items-center hover:bg-gray-200 rounded">
       <div class="flex items-center w-4/5">
         <input v-model="item.status" type="checkbox" class="form-checkbox cursor-pointer mr-2">
-        <pre class="text-lg font-medium leading-5 w-4/5" :class="{'line-through': item.status}">{{item.item}}</pre>
+        <pre contenteditable="true" @blur="onInput" :id="index" class="text-lg font-medium leading-5 w-4/5 outline-none" :class="{'line-through': item.status}">{{item.item}}</pre>
+      </div>
+      <div v-if="$props.tab !== 2" class="flex items-center">
+        <span v-if="item.date" class="material-icons cursor-pointer pr-4" @click="item.date = ''">auto_delete</span>
+        <input type="datetime-local" @blur="setTimeAlarm" v-model="item.date" class="outline-none w-auto bg-white">
       </div>
       <div v-if="$props.tab !== 0" @click="deleteToDo(item.id)" class="material-icons cursor-pointer">delete_outline</div>
     </li>
   </ul>
+
   <div class="flex justify-end pr-5" v-if="$props.tab === 2 && getToDos.length">
     <button @click="deleteAllToDos" class="flex items-center text-white rounded-input-text text-xs bg-red-500 px-5 py-2 focus:outline-none">
       <span class="material-icons cursor-pointer text-white">delete_outline</span>
@@ -46,12 +52,49 @@ export default {
       localStorage.setItem('data-todo', JSON.stringify(data.value))
     })
 
+    let arrInterval = []
+
+    const audio = new Audio(require('@/assets/audio.mp3'))
+
+    function setterAlarmTime (timeout, id, interval=30*60*1000) {
+      return setTimeout(() => {
+        audio.play()
+        setInterval(() => {
+          audio.play()
+          console.log(id)
+        }, interval)
+      }, timeout)
+    }
+
+    function setterAlarm () {
+      if (data.value.length) {
+        arrInterval = []
+        data.value.forEach((item) => {
+          if (item.date) {
+            let alarm = Date.parse(item.date) - Date.now()
+            if (alarm > 0) {
+              arrInterval.push({
+                id: item.id,
+                interval: setterAlarmTime(alarm, item.id)
+              })
+            }
+          }
+        })
+      }
+    }
+    setterAlarm()
+
+
+
+    console.log(arrInterval)
+
     const pushToDo = () => {
       if (toDo.value != '') {
         data.value.push({
           id: data.value.length + 1,
           item: toDo.value,
-          status: false
+          status: false,
+          date: ''
         })
       }
       toDo.value = ''
@@ -66,10 +109,17 @@ export default {
       })
     }
 
+    const onInput = (e) => {
+      data.value[e.target.id].item = e.target.innerText.trim()
+    }
+    const setTimeAlarm = () => {
+      setterAlarm()
+    }
+
     return {
       toDo, data,
       getToDos,
-      pushToDo, deleteToDo, deleteAllToDos
+      pushToDo, deleteToDo, deleteAllToDos, onInput, setTimeAlarm
     }
   }
 }
