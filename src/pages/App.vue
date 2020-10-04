@@ -7,7 +7,7 @@
 </template>
 <script>
 import Header from "@/components/Header";
-import ToDo from "@/components/ToDo";
+import ToDo from "@/components/todo/ToDo";
 import Footer from "@/components/Footer";
 
 export default {
@@ -21,11 +21,11 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+/*#app {*/
+/*  font-family: Avenir, Helvetica, Arial, sans-serif;*/
+/*  -webkit-font-smoothing: antialiased;*/
+/*  -moz-osx-font-smoothing: grayscale;*/
+/*}*/
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
