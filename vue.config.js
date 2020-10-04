@@ -4,7 +4,7 @@ module.exports = {
         msTileColor: "#a9f6d5",
         appleMobileWebAppCache: "yes",
         manifestOptions: {
-            background_color: "#42b983"
+            background_color: "# 42b983"
         }
     }
 };
