@@ -1,6 +1,5 @@
 <template>
   <div class="container relative min-h-screen-95 mx-auto pt-8 sm:px-24">
-    <button v-if="notificationsSupported" @click="askPermission">Enable notifications ></button>
     <Header/>
     <ToDo/>
   </div>
@@ -17,59 +16,11 @@ export default {
     Header,
     ToDo,
     Footer
-  },
-  data() {
-    return {
-      notificationsSupported: false,
-    }
-  },
-  methods: {
-    askPermission() {
-      if (this.notificationsSupported) {
-        Notification.requestPermission(result => {
-          console.log('result from permission question', result);
-          if (result !== 'granted') {
-            alert('You probably do not like notifications?!');
-          } else {
-            console.log('A notification will be send from the service worker => This only works in production');
-            setTimeout(() => {
-              const audio = new Audio(require('@/assets/test.mp3'))
-              audio.play()
-              this.showNotification()
-            }, 10000)
-          }
-        })
-      }
-    },
-    showNotification() {
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.ready // returns a Promise, the active SW registration
-            .then(swreg => swreg.showNotification('Notifications granted', {
-              body: 'Here is a first notification',
-              vibrate: [300, 200, 300],
-              actions: [
-                  { action: 'confirm', title: 'Okay', },
-                  { action: 'cancel', title: 'Cancel'}
-              ],
-            }))
-      }
-    },
-  },
-  created() {
-    if ('Notification' in window && 'serviceWorker' in navigator) {
-      this.notificationsSupported = true
-    }
-  },
+  }
 }
 </script>
 
 <style>
-/*#app {*/
-/*  font-family: Avenir, Helvetica, Arial, sans-serif;*/
-/*  -webkit-font-smoothing: antialiased;*/
-/*  -moz-osx-font-smoothing: grayscale;*/
-/*}*/
-/* width */
 ::-webkit-scrollbar {
   width: 10px;
 }
