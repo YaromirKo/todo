@@ -1,10 +1,10 @@
 module.exports = {
-
-  enabled: process.env.NODE_ENV === 'production',
-  content: [
-    'components/**/*.vue',
-    'pages/**/*.vue',
-    'plugins/**/*.js',
+  mode: 'layers',
+  layers: ['base', 'components', 'utilities'],
+  purge: [
+    './src/**/*.html',
+    './src/**/*.vue',
+    './src/**/*.jsx',
   ],
   theme: {
     minHeight: {
