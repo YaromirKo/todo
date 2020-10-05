@@ -71,32 +71,36 @@ self.addEventListener('fetch', function(event) {
 // if (workbox.navigationPreload.isSupported()) {
 //     workbox.navigationPreload.enable();
 // }
-
+const QUEUE_NAME = "bgSyncQueue";
 console.log(`Workbox is loaded`);
-// if (workbox) {
-//
-//     workbox.routing.registerRoute(
-//         new RegExp('/*'),
-//         new workbox.strategies.StaleWhileRevalidate({
-//             cacheName: CACHE_VERSION
-//         })
-//     );
-//
-//     workbox.loadModule('workbox-cacheable-response');
-//     workbox.loadModule('workbox-range-requests');
-//
-//     workbox.routing.registerRoute(
-//         /.*\.mp3/,
-//         new workbox.strategies.CacheFirst({
-//             cacheName: CACHE_VERSION,
-//             plugins: [
-//                 new workbox.cacheableResponse.CacheableResponsePlugin({statuses: [200]}),
-//                 new workbox.rangeRequests.RangeRequestsPlugin(),
-//             ],
-//         }),
-//     );
-//
-// }
-// else {
-//     console.log(`Workbox didn't load`);
-// }
+if (workbox) {
+
+    const bgSyncPlugin = new workbox.backgroundSync.Plugin(QUEUE_NAME, {
+        maxRetentionTime: 24 * 60 // Retry for max of 24 Hours (specified in minutes)
+    });
+
+    workbox.routing.registerRoute(
+        new RegExp('/*'),
+        new workbox.strategies.StaleWhileRevalidate({
+            cacheName: CACHE_VERSION
+        })
+    );
+
+    workbox.loadModule('workbox-cacheable-response');
+    workbox.loadModule('workbox-range-requests');
+
+    workbox.routing.registerRoute(
+        /.*\.mp3/,
+        new workbox.strategies.CacheFirst({
+            cacheName: CACHE_VERSION,
+            plugins: [
+                new workbox.cacheableResponse.CacheableResponsePlugin({statuses: [200]}),
+                new workbox.rangeRequests.RangeRequestsPlugin(),
+            ],
+        }),
+    );
+
+}
+else {
+    console.log(`Workbox didn't load`);
+}
