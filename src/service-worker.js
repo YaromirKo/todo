@@ -3,17 +3,20 @@
 // workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
 
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
+// importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
 
 const CACHE_VERSION  = 'v1.3' //Change this value every time before you build
 
-self.addEventListener("message", (event) => {
-    if (event.data && event.data.type === "SKIP_WAITING") {
-        self.skipWaiting();
-    }
-});
+// self.addEventListener("message", (event) => {
+//     if (event.data && event.data.type === "SKIP_WAITING") {
+//         self.skipWaiting();
+//     }
+// });
 
+
+self.__precacheManifest = [].concat(self.__precacheManifest || [])
+workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
 
 
 self.addEventListener('install', function(e) {
@@ -37,19 +40,19 @@ self.addEventListener('install', function(e) {
 
 
 
-self.addEventListener('activate', function (event) {
-    event.waitUntil(
-        caches.keys().then(function (cacheNames) {
-            return Promise.all(
-                cacheNames.map(function (cacheName) {
-                    if (cacheName !== CACHE_VERSION) {
-                        return caches.delete(cacheName);
-                    }
-                })
-            );
-        })
-    );
-});
+// self.addEventListener('activate', function (event) {
+//     event.waitUntil(
+//         caches.keys().then(function (cacheNames) {
+//             return Promise.all(
+//                 cacheNames.map(function (cacheName) {
+//                     if (cacheName !== CACHE_VERSION) {
+//                         return caches.delete(cacheName);
+//                     }
+//                 })
+//             );
+//         })
+//     );
+// });
 
 
 self.addEventListener('fetch', function(event) {
@@ -64,38 +67,37 @@ self.addEventListener('fetch', function(event) {
 
 
 
-self.__precacheManifest = [].concat(self.__precacheManifest || [])
-workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
+
 
 // if (workbox.navigationPreload.isSupported()) {
 //     workbox.navigationPreload.enable();
 // }
 
-if (workbox) {
-    console.log(`Workbox is loaded`);
-
-    workbox.routing.registerRoute(
-        new RegExp('/*'),
-        new workbox.strategies.StaleWhileRevalidate({
-            cacheName: CACHE_VERSION
-        })
-    );
-
-    workbox.loadModule('workbox-cacheable-response');
-    workbox.loadModule('workbox-range-requests');
-
-    workbox.routing.registerRoute(
-        /.*\.mp3/,
-        new workbox.strategies.CacheFirst({
-            cacheName: CACHE_VERSION,
-            plugins: [
-                new workbox.cacheableResponse.CacheableResponsePlugin({statuses: [200]}),
-                new workbox.rangeRequests.RangeRequestsPlugin(),
-            ],
-        }),
-    );
-
-}
-else {
-    console.log(`Workbox didn't load`);
-}
+console.log(`Workbox is loaded`);
+// if (workbox) {
+//
+//     workbox.routing.registerRoute(
+//         new RegExp('/*'),
+//         new workbox.strategies.StaleWhileRevalidate({
+//             cacheName: CACHE_VERSION
+//         })
+//     );
+//
+//     workbox.loadModule('workbox-cacheable-response');
+//     workbox.loadModule('workbox-range-requests');
+//
+//     workbox.routing.registerRoute(
+//         /.*\.mp3/,
+//         new workbox.strategies.CacheFirst({
+//             cacheName: CACHE_VERSION,
+//             plugins: [
+//                 new workbox.cacheableResponse.CacheableResponsePlugin({statuses: [200]}),
+//                 new workbox.rangeRequests.RangeRequestsPlugin(),
+//             ],
+//         }),
+//     );
+//
+// }
+// else {
+//     console.log(`Workbox didn't load`);
+// }
