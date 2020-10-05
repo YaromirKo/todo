@@ -1,5 +1,5 @@
 [{
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target" : { "namespace": "android_app", "package_name": "app.netlify.alpha_angry_blackwell_e1fa59.twa",
-                   "sha256_cert_fingerprints": ["70:9E:E6:A3:97:4F:A2:2F:0E:E7:AE:9C:55:60:3E:E4:B9:3B:E6:F7:0D:A4:3C:54:4F:D4:37:A9:89:18:EE:6D"] }
-    }]
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target" : { "namespace": "android_app", "package_name": "app.netlify.alpha_angry_blackwell_e1fa59.twa",
+    "sha256_cert_fingerprints": ["74:60:F5:E8:28:4B:2D:C2:B7:D1:A9:EF:9E:B4:7D:BE:F6:D0:0B:4C:9A:87:A3:89:8C:05:C1:4F:7F:DB:6B:10"] }
+}]
