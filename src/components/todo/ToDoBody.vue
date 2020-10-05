@@ -67,6 +67,7 @@ export default {
         }
       });
     }
+    showNotification()
 
     const audio = new Audio(require('@/assets/audio.mp3'))
 

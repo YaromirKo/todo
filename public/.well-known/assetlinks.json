@@ -1,5 +1,0 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target" : { "namespace": "android_app", "package_name": "app.netlify.alpha_angry_blackwell_e1fa59.twa",
-    "sha256_cert_fingerprints": ["58:92:22:3A:83:36:13:C9:E1:F6:4F:14:F0:DA:0F:7F:54:95:D5:A0:D2:32:51:B1:42:17:EB:05:32:75:4D:F5"] }
-}]
