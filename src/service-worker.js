@@ -12,7 +12,6 @@
 //     '/js/chunk-vendors.27423cc5.js',
 //     '/media/audio.6227e272.mp3'
 // ];
-self.__precacheManifest = [].concat(self.__precacheManifest || [])
 
 
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
@@ -80,13 +79,13 @@ self.addEventListener('fetch', (event) => {
 
 
 
+self.__precacheManifest = [].concat(self.__precacheManifest || [])
+workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
 
 
 if (workbox) {
     console.log(`Workbox is loaded`);
-    workbox.precaching.suppressWarnings()
 
-    workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
     workbox.routing.registerRoute(
         new RegExp('/*'),
         new workbox.strategies.StaleWhileRevalidate({
