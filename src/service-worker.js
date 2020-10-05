@@ -31,9 +31,7 @@ self.addEventListener('install', async (event) => {
 });
 
 
-if (workbox.navigationPreload.isSupported()) {
-    workbox.navigationPreload.enable();
-}
+
 
 self.addEventListener('activate', function (event) {
     event.waitUntil(
@@ -89,6 +87,9 @@ self.addEventListener('fetch', function(event) {
 self.__precacheManifest = [].concat(self.__precacheManifest || [])
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
 
+// if (workbox.navigationPreload.isSupported()) {
+//     workbox.navigationPreload.enable();
+// }
 
 if (workbox) {
     console.log(`Workbox is loaded`);
