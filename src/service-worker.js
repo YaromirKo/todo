@@ -82,7 +82,10 @@ if (workbox) {
     workbox.routing.registerRoute(
         new RegExp('/*'),
         new workbox.strategies.StaleWhileRevalidate({
-            cacheName: CACHE_VERSION
+            cacheName: CACHE_VERSION,
+            plugins: [
+                bgSyncPlugin
+            ]
         })
     );
 
