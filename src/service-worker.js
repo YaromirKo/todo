@@ -22,10 +22,10 @@ self.addEventListener('install', function(e) {
             return cache.addAll([
                 './',
                 './index.html',
-                './css/app.3a7f115c.css',
-                './js/app.67c00c21.js',
+                // './css/app.3a7f115c.css',
+                // './js/app.67c00c21.js',
                 './manifest.json',
-                './img/icons/favicon-32x32.png',
+                // './img/icons/favicon-32x32.png',
                 './js/chunk-vendors.27423cc5.js',
                 './media/audio.6227e272.mp3',
             ]);
