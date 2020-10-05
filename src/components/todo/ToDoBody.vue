@@ -54,10 +54,25 @@ export default {
 
     let arrInterval = []
 
+    function showNotification() {
+      Notification.requestPermission(function(result) {
+        if (result === 'granted') {
+          navigator.serviceWorker.ready.then(function(registration) {
+            registration.showNotification('Vibration Sample', {
+              body: 'Buzz! Buzz!',
+              vibrate: [200, 100, 200, 100, 200, 100, 200],
+              tag: 'vibration-sample'
+            });
+          });
+        }
+      });
+    }
+
     const audio = new Audio(require('@/assets/audio.mp3'))
 
     function setterAlarmTime (timeout, id, interval=30*60*1000) {
       return setTimeout(() => {
+        showNotification()
         audio.play()
         setInterval(() => {
           audio.play()
@@ -65,6 +80,7 @@ export default {
         }, interval)
       }, timeout)
     }
+
 
     function setterAlarm () {
       if (data.value.length) {
