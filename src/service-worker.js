@@ -12,12 +12,14 @@
 //     '/js/chunk-vendors.27423cc5.js',
 //     '/media/audio.6227e272.mp3'
 // ];
+self.__precacheManifest = [].concat(self.__precacheManifest || [])
+
 
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
 let urlsToCache = '/index.html'
 
-const CACHE_VERSION  = 'v1.0' //Change this value every time before you build
+const CACHE_VERSION  = 'v1.1' //Change this value every time before you build
 
 self.addEventListener("message", (event) => {
     if (event.data && event.data.type === "SKIP_WAITING") {
@@ -25,16 +27,19 @@ self.addEventListener("message", (event) => {
     }
 });
 
-self.addEventListener('install', function(event) {
-    // Perform install steps
+
+
+self.addEventListener('install', async (event) => {
     event.waitUntil(
         caches.open(CACHE_VERSION)
-            .then(function(cache) {
-                console.log('Opened cache');
-                return cache.add(urlsToCache);
-            })
+            .then((cache) => cache.add(urlsToCache))
     );
 });
+
+
+if (workbox.navigationPreload.isSupported()) {
+    workbox.navigationPreload.enable();
+}
 
 self.addEventListener('activate', function (event) {
     event.waitUntil(
@@ -74,6 +79,36 @@ self.addEventListener('fetch', (event) => {
 });
 
 
-self.__precacheManifest = [].concat(self.__precacheManifest || [])
-workbox.precaching.suppressWarnings()
-workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
+
+
+
+if (workbox) {
+    console.log(`Workbox is loaded`);
+    workbox.precaching.suppressWarnings()
+
+    workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
+    workbox.routing.registerRoute(
+        new RegExp('/*'),
+        new workbox.strategies.StaleWhileRevalidate({
+            cacheName: CACHE
+        })
+    );
+
+    workbox.loadModule('workbox-cacheable-response');
+    workbox.loadModule('workbox-range-requests');
+
+    workbox.routing.registerRoute(
+        /.*\.mp3/,
+        new workbox.strategies.CacheFirst({
+            cacheName: CACHE,
+            plugins: [
+                new workbox.cacheableResponse.CacheableResponsePlugin({statuses: [200]}),
+                new workbox.rangeRequests.RangeRequestsPlugin(),
+            ],
+        }),
+    );
+
+}
+else {
+    console.log(`Workbox didn't load`);
+}
