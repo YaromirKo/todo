@@ -2,21 +2,20 @@
 // workbox.precaching.suppressWarnings();
 // workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-// let urlsToCache = [
-//     '/',
-//     '/index.html',
-//     '/css/app.90baa6be.css',
-//     '/**/*.js',
-//     '/**/*.css',
-//     '/js/app.3c6ba691.js',
-//     '/js/chunk-vendors.27423cc5.js',
-//     '/media/audio.6227e272.mp3'
-// ];
+let urlsToCache = [
+    '/',
+    '/index.html',
+    '/css/app.90baa6be.css',
+    '/**/*.js',
+    '/**/*.css',
+    '/js/app.3c6ba691.js',
+    '/js/chunk-vendors.27423cc5.js',
+    '/media/audio.6227e272.mp3'
+];
 
 
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
-let urlsToCache = '/index.html'
 
 const CACHE_VERSION  = 'v1.1' //Change this value every time before you build
 
@@ -31,7 +30,7 @@ self.addEventListener("message", (event) => {
 self.addEventListener('install', async (event) => {
     event.waitUntil(
         caches.open(CACHE_VERSION)
-            .then((cache) => cache.add(urlsToCache))
+            .then((cache) => cache.addAll(urlsToCache))
     );
 });
 
@@ -55,27 +54,39 @@ self.addEventListener('activate', function (event) {
 });
 
 
-self.addEventListener('fetch', (event) => {
-    if (event.request.mode === 'navigate') {
-        event.respondWith((async () => {
-            try {
-                const preloadResp = await event.preloadResponse;
-
-                if (preloadResp) {
-                    return preloadResp;
+self.addEventListener('fetch', function(event) {
+    event.respondWith(
+        caches.match(event.request)
+            .then(function(response) {
+                // Cache hit - return response
+                if (response) {
+                    return response;
                 }
 
-                const networkResp = await fetch(event.request);
-                return networkResp;
-            } catch (error) {
+                return fetch(event.request).then(
+                    function(response) {
+                        // Check if we received a valid response
+                        if(!response || response.status !== 200 || response.type !== 'basic') {
+                            return response;
+                        }
 
-                const cache = await caches.open(CACHE_VERSION);
-                const cachedResp = await cache.match(urlsToCache);
-                return cachedResp;
-            }
-        })());
-    }
-});
+                        // IMPORTANT: Clone the response. A response is a stream
+                        // and because we want the browser to consume the response
+                        // as well as the cache consuming the response, we need
+                        // to clone it so we have two streams.
+                        let responseToCache = response.clone();
+
+                        caches.open(CACHE_VERSION)
+                            .then(function(cache) {
+                                cache.put(event.request, responseToCache);
+                            });
+
+                        return response;
+                    }
+                );
+            })
+    );
+})
 
 
 
