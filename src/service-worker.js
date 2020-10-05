@@ -87,6 +87,12 @@ if (workbox) {
     //         ]
     //     })
     // );
+    workbox.routing.registerRoute(
+        new RegExp('/*'),
+        new workbox.strategies.CacheFirst({
+            cacheName: CACHE_VERSION
+        })
+    );
 
     workbox.loadModule('workbox-cacheable-response');
     workbox.loadModule('workbox-range-requests');
