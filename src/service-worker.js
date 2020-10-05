@@ -31,7 +31,6 @@ self.addEventListener('install', function(e) {
                 './img/icons/favicon-32x32.png',
                 './js/chunk-vendors.27423cc5.js',
                 './media/audio.6227e272.mp3',
-                './.well-know/assetlinks.json'
             ]);
         })
     );
