@@ -2,18 +2,11 @@
 // workbox.precaching.suppressWarnings();
 // workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-let urlsToCache = [
-    '/',
-    '/index.html',
-    '/js/chunk-vendors.27423cc5.js',
-    '/media/audio.6227e272.mp3'
-];
-
 
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
 
-const CACHE_VERSION  = 'v1.2' //Change this value every time before you build
+const CACHE_VERSION  = 'v1.3' //Change this value every time before you build
 
 self.addEventListener("message", (event) => {
     if (event.data && event.data.type === "SKIP_WAITING") {
@@ -23,10 +16,21 @@ self.addEventListener("message", (event) => {
 
 
 
-self.addEventListener('install', async (event) => {
-    event.waitUntil(
-        caches.open(CACHE_VERSION)
-            .then((cache) => cache.addAll(urlsToCache))
+self.addEventListener('install', function(e) {
+    e.waitUntil(
+        caches.open(CACHE_VERSION).then(function(cache) {
+            return cache.addAll([
+                '/',
+                '/index.html',
+                '/css/app.3a7f115c.css',
+                '/js/app.67c00c21.js',
+                '/manifest.json',
+                '/img/icons/favicon-32x32.png',
+                '/js/chunk-vendors.27423cc5.js',
+                '/media/audio.6227e272.mp3',
+                '/.well-know/assetlinks.json'
+            ]);
+        })
     );
 });
 
@@ -49,16 +53,12 @@ self.addEventListener('activate', function (event) {
 
 
 self.addEventListener('fetch', function(event) {
+    console.log(event.request.url);
+
     event.respondWith(
-        caches.match(event.request)
-            .then(function(response) {
-                    // Cache hit - return response
-                    if (response) {
-                        return response;
-                    }
-                    return fetch(event.request);
-                }
-            )
+        caches.match(event.request).then(function(response) {
+            return response || fetch(event.request);
+        })
     );
 });
 
