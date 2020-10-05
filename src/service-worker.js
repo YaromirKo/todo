@@ -5,10 +5,6 @@
 let urlsToCache = [
     '/',
     '/index.html',
-    '/css/app.90baa6be.css',
-    '/**/*.js',
-    '/**/*.css',
-    '/js/app.3c6ba691.js',
     '/js/chunk-vendors.27423cc5.js',
     '/media/audio.6227e272.mp3'
 ];
