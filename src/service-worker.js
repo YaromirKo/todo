@@ -72,19 +72,21 @@ const QUEUE_NAME = "bgSyncQueue";
 console.log(`Workbox is loaded`);
 if (workbox) {
 
-    const bgSyncPlugin = new workbox.backgroundSync.Plugin(QUEUE_NAME, {
-        maxRetentionTime: 24 * 60 // Retry for max of 24 Hours (specified in minutes)
-    });
-
-    workbox.routing.registerRoute(
-        new RegExp('/*'),
-        new workbox.strategies.StaleWhileRevalidate({
-            cacheName: CACHE_VERSION,
-            plugins: [
-                bgSyncPlugin
-            ]
-        })
-    );
+    // const bgSyncPlugin = new workbox.backgroundSync.Plugin(QUEUE_NAME, {
+    //     maxRetentionTime: 24 * 60 // Retry for max of 24 Hours (specified in minutes)
+    // });
+    // const networkOnlyStrategy = new workbox.strategies.NetworkOnly({
+    //     plugins: [bgSyncPlugin],
+    // });
+    // workbox.routing.registerRoute(
+    //     new RegExp('/*'),
+    //     new workbox.strategies.StaleWhileRevalidate({
+    //         cacheName: CACHE_VERSION,
+    //         plugins: [
+    //             bgSyncPlugin
+    //         ]
+    //     })
+    // );
 
     workbox.loadModule('workbox-cacheable-response');
     workbox.loadModule('workbox-range-requests');
