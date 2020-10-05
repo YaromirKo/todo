@@ -2,10 +2,7 @@
 // workbox.precaching.suppressWarnings();
 // workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-
-// importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
-
-
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 const CACHE_VERSION  = 'v1.3' //Change this value every time before you build
 
 // self.addEventListener("message", (event) => {
@@ -93,7 +90,7 @@ if (workbox) {
     workbox.loadModule('workbox-range-requests');
 
     workbox.routing.registerRoute(
-        /.*\.mp3/,
+        /.*\.mp4/,
         new workbox.strategies.CacheFirst({
             cacheName: CACHE_VERSION,
             plugins: [
