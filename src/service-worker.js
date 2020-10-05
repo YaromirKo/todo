@@ -23,15 +23,15 @@ self.addEventListener('install', function(e) {
     e.waitUntil(
         caches.open(CACHE_VERSION).then(function(cache) {
             return cache.addAll([
-                '/',
-                '/index.html',
-                '/css/app.3a7f115c.css',
-                '/js/app.67c00c21.js',
-                '/manifest.json',
-                '/img/icons/favicon-32x32.png',
-                '/js/chunk-vendors.27423cc5.js',
-                '/media/audio.6227e272.mp3',
-                '/.well-know/assetlinks.json'
+                './',
+                './index.html',
+                './css/app.3a7f115c.css',
+                './js/app.67c00c21.js',
+                './manifest.json',
+                './img/icons/favicon-32x32.png',
+                './js/chunk-vendors.27423cc5.js',
+                './media/audio.6227e272.mp3',
+                './.well-know/assetlinks.json'
             ]);
         })
     );
@@ -58,7 +58,7 @@ self.addEventListener('install', function(e) {
 self.addEventListener('fetch', function(event) {
     console.log(event.request.url);
 
-    event.respondWith(
+    event.waitUntil(
         caches.match(event.request).then(function(response) {
             return response || fetch(event.request);
         })
