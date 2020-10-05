@@ -13,7 +13,7 @@ let urlsToCache = [
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
 
-const CACHE_VERSION  = 'v1.1' //Change this value every time before you build
+const CACHE_VERSION  = 'v1.2' //Change this value every time before you build
 
 self.addEventListener("message", (event) => {
     if (event.data && event.data.type === "SKIP_WAITING") {
@@ -52,35 +52,15 @@ self.addEventListener('fetch', function(event) {
     event.respondWith(
         caches.match(event.request)
             .then(function(response) {
-                // Cache hit - return response
-                if (response) {
-                    return response;
-                }
-
-                return fetch(event.request).then(
-                    function(response) {
-                        // Check if we received a valid response
-                        if(!response || response.status !== 200 || response.type !== 'basic') {
-                            return response;
-                        }
-
-                        // IMPORTANT: Clone the response. A response is a stream
-                        // and because we want the browser to consume the response
-                        // as well as the cache consuming the response, we need
-                        // to clone it so we have two streams.
-                        let responseToCache = response.clone();
-
-                        caches.open(CACHE_VERSION)
-                            .then(function(cache) {
-                                cache.put(event.request, responseToCache);
-                            });
-
+                    // Cache hit - return response
+                    if (response) {
                         return response;
                     }
-                );
-            })
+                    return fetch(event.request);
+                }
+            )
     );
-})
+});
 
 
 
