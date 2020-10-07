@@ -98,7 +98,7 @@ if (workbox) {
     workbox.loadModule('workbox-range-requests');
 
     workbox.routing.registerRoute(
-        /.*\.mp4/,
+        /.*\.mp3/,
         new workbox.strategies.CacheFirst({
             cacheName: CACHE_VERSION,
             plugins: [

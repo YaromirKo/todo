@@ -8,17 +8,19 @@
   </div>
 
   <ul class="flex flex-col sm:pt-6 sm:px-5">
-    <li v-for="(item, index) in getToDos" :key="item.id" class="p-2 flex justify-between items-center hover:bg-gray-200 rounded">
-      <div class="flex items-center w-4/5">
-        <input v-model="item.status" type="checkbox" class="form-checkbox cursor-pointer mr-2">
-        <pre contenteditable="true" @blur="onInput" :id="index" class="text-lg font-medium leading-5 w-4/5 outline-none" :class="{'line-through': item.status}">{{item.item}}</pre>
-      </div>
-      <div v-if="$props.tab !== 2" class="flex items-center">
-        <span v-if="item.date" class="material-icons cursor-pointer pr-4" @click="item.date = ''">auto_delete</span>
-        <input type="datetime-local" @blur="setTimeAlarm" v-model="item.date" class="outline-none w-auto bg-white">
-      </div>
-      <div v-if="$props.tab !== 0" @click="deleteToDo(item.id)" class="material-icons cursor-pointer">delete_outline</div>
-    </li>
+    <transition-group name="slide-fade">
+      <li v-for="(item, index) in getToDos" :key="item.id" class="p-2 flex justify-between items-center hover:bg-gray-200 rounded">
+        <div class="flex items-center w-4/5">
+          <input v-model="item.status" type="checkbox" class="form-checkbox cursor-pointer mr-2">
+          <pre contenteditable="true" @blur="onInput" :id="index" class="text-lg font-medium leading-5 w-4/5 outline-none" :class="{'line-through': item.status}">{{item.item}}</pre>
+        </div>
+  <!--      <div v-if="$props.tab !== 2" class="flex items-center">-->
+  <!--&lt;!&ndash;        <span v-if="item.date" class="material-icons cursor-pointer pr-4" @click="item.date = ''">auto_delete</span>&ndash;&gt;-->
+  <!--        <input type="datetime-local" v-model="item.date" class="outline-none w-auto bg-white">-->
+  <!--      </div>-->
+        <div v-if="$props.tab !== 0" @click="deleteToDo(item.id)" class="material-icons cursor-pointer">delete_outline</div>
+      </li>
+    </transition-group>
   </ul>
 
   <div class="flex justify-end pr-5" v-if="$props.tab === 2 && getToDos.length">
@@ -52,58 +54,20 @@ export default {
       localStorage.setItem('data-todo', JSON.stringify(data.value))
     })
 
-    let arrInterval = []
+    // function showNotification() {
+    //   Notification.requestPermission(function(result) {
+    //     if (result === 'granted') {
+    //       navigator.serviceWorker.ready.then(function(registration) {
+    //         registration.showNotification('Vibration Sample', {
+    //           body: 'Buzz! Buzz!',
+    //           vibrate: [200, 100, 200, 100, 200, 100, 200],
+    //           tag: 'vibration-sample'
+    //         });
+    //       });
+    //     }
+    //   });
+    // }
 
-    function showNotification() {
-      Notification.requestPermission(function(result) {
-        if (result === 'granted') {
-          navigator.serviceWorker.ready.then(function(registration) {
-            registration.showNotification('Vibration Sample', {
-              body: 'Buzz! Buzz!',
-              vibrate: [200, 100, 200, 100, 200, 100, 200],
-              tag: 'vibration-sample'
-            });
-          });
-        }
-      });
-    }
-    showNotification()
-
-    const audio = new Audio(require('@/assets/audio.mp3'))
-
-    function setterAlarmTime (timeout, id, interval=30*60*1000) {
-      return setTimeout(() => {
-        showNotification()
-        audio.play()
-        setInterval(() => {
-          audio.play()
-          console.log(id)
-        }, interval)
-      }, timeout)
-    }
-
-
-    function setterAlarm () {
-      if (data.value.length) {
-        arrInterval = []
-        data.value.forEach((item) => {
-          if (item.date) {
-            let alarm = Date.parse(item.date) - Date.now()
-            if (alarm > 0) {
-              arrInterval.push({
-                id: item.id,
-                interval: setterAlarmTime(alarm, item.id)
-              })
-            }
-          }
-        })
-      }
-    }
-    setterAlarm()
-
-
-
-    console.log(arrInterval)
 
     const pushToDo = () => {
       if (toDo.value != '') {
@@ -129,14 +93,11 @@ export default {
     const onInput = (e) => {
       data.value[e.target.id].item = e.target.innerText.trim()
     }
-    const setTimeAlarm = () => {
-      setterAlarm()
-    }
 
     return {
       toDo, data,
       getToDos,
-      pushToDo, deleteToDo, deleteAllToDos, onInput, setTimeAlarm
+      pushToDo, deleteToDo, deleteAllToDos, onInput
     }
   }
 }
@@ -149,5 +110,16 @@ pre {
   /*white-space: -pre-wrap;      !* Opera 4-6 *!*/
   white-space: -o-pre-wrap;    /* Opera 7 */
   word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+  /* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
 }
 </style>
