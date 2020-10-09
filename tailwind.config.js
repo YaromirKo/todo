@@ -7,13 +7,13 @@ module.exports = {
     './src/**/*.js',
   ],
   theme: {
-    minHeight: {
-      'screen-95': '95vh'
-    },
     variants: {
       backgroundColor: ['responsive', 'hover', 'focus'],
     },
     extend: {
+      gridTemplateRows: {
+        'layout': 'auto 1fr auto'
+      },
       borderRadius: {
         'input-text': '0.75rem'
       },
