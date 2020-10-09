@@ -1,21 +1,23 @@
 <template>
-  <header class="sticky top-0 mt-4">
-    <div class="flex justify-around border-b-2 bg-white">
-      <div @click="toggleTab(0)" class="w-22 text-center font-semibold leading-4 cursor-pointer">
-        <p class="my-4">All</p>
-        <div :class="{'border-active': activeTab === 0}" class="border-transparent"></div>
+  <div>
+    <header class="sticky top-0 mt-4">
+      <div class="flex justify-around border-b-2 bg-white">
+        <div @click="toggleTab(0)" class="w-22 text-center font-semibold leading-4 cursor-pointer">
+          <p class="my-4">All</p>
+          <div :class="{'border-active': activeTab === 0}" class="border-transparent"></div>
+        </div>
+        <div @click="toggleTab(1)" class="w-22 text-center font-semibold leading-4 cursor-pointer">
+          <p class="my-4">Active</p>
+          <div :class="{'border-active': activeTab === 1}" class="border-transparent"></div>
+        </div>
+        <div @click="toggleTab(2)" class="w-22 text-center font-semibold leading-4 cursor-pointer">
+          <p class="my-4">Completed</p>
+          <div :class="{'border-active': activeTab === 2}" class="border-transparent"></div>
+        </div>
       </div>
-      <div @click="toggleTab(1)" class="w-22 text-center font-semibold leading-4 cursor-pointer">
-        <p class="my-4">Active</p>
-        <div :class="{'border-active': activeTab === 1}" class="border-transparent"></div>
-      </div>
-      <div @click="toggleTab(2)" class="w-22 text-center font-semibold leading-4 cursor-pointer">
-        <p class="my-4">Completed</p>
-        <div :class="{'border-active': activeTab === 2}" class="border-transparent"></div>
-      </div>
-    </div>
-  </header>
-  <ToDoBody :tab="activeTab" />
+    </header>
+    <ToDoBody :tab="activeTab" />
+  </div>
 </template>
 
 <script>

@@ -14,10 +14,6 @@
           <input v-model="item.status" type="checkbox" class="form-checkbox cursor-pointer mr-2">
           <pre contenteditable="true" @blur="onInput" :id="index" class="text-lg font-medium leading-5 w-4/5 outline-none" :class="{'line-through': item.status}">{{item.item}}</pre>
         </div>
-  <!--      <div v-if="$props.tab !== 2" class="flex items-center">-->
-  <!--&lt;!&ndash;        <span v-if="item.date" class="material-icons cursor-pointer pr-4" @click="item.date = ''">auto_delete</span>&ndash;&gt;-->
-  <!--        <input type="datetime-local" v-model="item.date" class="outline-none w-auto bg-white">-->
-  <!--      </div>-->
         <div v-if="$props.tab !== 0" @click="deleteToDo(item.id)" class="material-icons cursor-pointer">delete_outline</div>
       </li>
     </transition-group>
@@ -53,21 +49,6 @@ export default {
     watchEffect(() => {
       localStorage.setItem('data-todo', JSON.stringify(data.value))
     })
-
-    // function showNotification() {
-    //   Notification.requestPermission(function(result) {
-    //     if (result === 'granted') {
-    //       navigator.serviceWorker.ready.then(function(registration) {
-    //         registration.showNotification('Vibration Sample', {
-    //           body: 'Buzz! Buzz!',
-    //           vibrate: [200, 100, 200, 100, 200, 100, 200],
-    //           tag: 'vibration-sample'
-    //         });
-    //       });
-    //     }
-    //   });
-    // }
-
 
     const pushToDo = () => {
       if (toDo.value != '') {
@@ -115,7 +96,7 @@ pre {
   transition: all .3s ease;
 }
 .slide-fade-leave-active {
-  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  transition: all 2s ease-in;
 }
 .slide-fade-enter, .slide-fade-leave-to
   /* .slide-fade-leave-active below version 2.1.8 */ {

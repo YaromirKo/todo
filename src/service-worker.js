@@ -36,19 +36,18 @@ self.addEventListener('install', function(e) {
 
 
 
-// self.addEventListener('activate', function (event) {
-//     event.waitUntil(
-//         caches.keys().then(function (cacheNames) {
-//             return Promise.all(
-//                 cacheNames.map(function (cacheName) {
-//                     if (cacheName !== CACHE_VERSION) {
-//                         return caches.delete(cacheName);
-//                     }
-//                 })
-//             );
-//         })
-//     );
-// });
+self.addEventListener("activate", (event) => {
+    event.waitUntil(
+        caches.keys().then((cacheNames) => {
+            const promiseArr = cacheNames.map((item) => {
+                if (item !== CACHE_VERSION) {
+                    return caches.delete(item);
+                }
+            });
+            return Promise.all(promiseArr);
+        })
+    );
+});
 
 
 self.addEventListener('fetch', function(event) {
