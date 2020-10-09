@@ -20,7 +20,7 @@ export const store = createStore({
             if (todo != '') {
                 state.data.push({
                     id: state.data.length + 1,
-                    text: todo,
+                    item: todo,
                     status: false,
                     date: ''
                 })

@@ -8,15 +8,15 @@
   </div>
 
   <ul class="flex flex-col sm:pt-6 sm:px-5">
-<!--    <transition-group name="slide-fade">-->
-      <li v-for="(item, index) in getToDos" :key="item.id" class="p-2 flex justify-between items-center hover:bg-gray-200 rounded">
+    <transition-group name="slide-fade">
+      <li v-for="(item, index) in $props.data" :key="item.id" class="p-2 flex justify-between items-center hover:bg-gray-200 rounded">
         <div class="flex items-center w-4/5">
           <input v-model="item.status" type="checkbox" class="form-checkbox cursor-pointer mr-2">
-          <pre :id="index" class="text-lg font-medium leading-5 w-4/5 outline-none" :class="{'line-through': item.status}">{{item.text}}</pre>
+          <pre :id="index" class="text-lg font-medium leading-5 w-4/5 outline-none" :class="{'line-through': item.status}">{{item.item}}</pre>
         </div>
         <div v-if="$props.tab !== 0" @click="deleteToDo(item.id)" class="material-icons cursor-pointer">delete_outline</div>
       </li>
-<!--    </transition-group>-->
+    </transition-group>
   </ul>
 
   <div class="flex justify-end pr-5" v-if="$props.tab === 2 && getToDos.length">
@@ -37,6 +37,9 @@ export default {
   props: {
     tab: {
       type: Number
+    },
+    data: {
+      type: Array
     }
   },
   setup(props) {
@@ -74,7 +77,7 @@ pre {
   transition: all .3s ease;
 }
 .slide-fade-leave-active {
-  transition: all 2s ease-in;
+  transition: all 5s ease-in;
 }
 .slide-fade-enter, .slide-fade-leave-to
   /* .slide-fade-leave-active below version 2.1.8 */ {
