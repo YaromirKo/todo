@@ -1,6 +1,6 @@
 <template>
   <header class="text-center ">
-    <p class="text-4xl font-bold leading-10">#todo v.1</p>
+    <p class="text-4xl font-bold leading-10">#todo v.1.1</p>
     <small v-show="show" class="bg-red-300 rounded p-2">All your notes are saved locally in your browser</small>
   </header>
 </template>
