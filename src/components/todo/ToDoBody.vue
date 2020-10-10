@@ -14,12 +14,13 @@
     </button>
   </div>
 
-  <ul class="flex flex-col sm:pt-6 sm:px-5">
+  <ul class="flex flex-col sm:pt-6 pt-2 sm:px-5">
     <transition-group name="slide-fade">
-      <li v-for="(item, index) in getToDos" :key="item.id" class="p-2 flex justify-between items-center hover:bg-gray-200 rounded">
-        <div class="flex items-center w-4/5">
+      <li v-for="(item, index) in getToDos" :key="item.id" class="p-2 mb-2 flex justify-between items-center hover:bg-gray-200 rounded" :class="{'bg-green-200': item.status}">
+        <div class="flex items-center ">
           <input v-model="item.status" @change="saveToDo" type="checkbox" class="form-checkbox cursor-pointer mr-2">
-          <pre :contenteditable="$props.tab !== 2 && !item.status" @blur="editContent($event, item)" :id="index" class="text-lg font-medium leading-5 w-4/5 outline-none" :class="{'line-through': item.status}">{{item.item}}</pre>
+          <pre :key="updatePre" :contenteditable="$props.tab !== 2 && !item.status" @blur="editContent($event, item)" :id="index"
+               class="text-lg font-medium break-all leading-5 outline-none" :class="{'line-through': item.status}">{{item.item}}</pre>
         </div>
         <div v-if="$props.tab !== 0" @click="deleteToDo(item.id)" class="material-icons cursor-pointer">delete_outline</div>
       </li>
@@ -40,27 +41,27 @@ export default {
     }
   },
   setup(props) {
-
-    const toDo = ref('')
-
     const getToDos = computed(() => {
       return props.tab === 0 ? store.state.data : props.tab === 1 ? store.getters.getActiveToDo : store.getters.getCompletedToDo
     })
 
+    const toDo = ref('')
     const pushToDo = () => {
       store.commit('setToDo', toDo.value)
       toDo.value = ''
     }
 
+    const updatePre = ref(true)
     const editContent = (event, item) => {
       store.dispatch('updateToDo', {
         text: event.target.innerText,
         id: item.id
       })
+      updatePre.value = !updatePre.value
     }
 
     return {
-      toDo,
+      toDo, updatePre,
       getToDos,
       pushToDo, editContent,
       ...mapMutations(['deleteToDo', 'deleteAllToDo', 'saveToDo'])
