@@ -1,13 +1,13 @@
 <template>
   <tabs>
     <tab title="All" active>
-      <ToDoBody :tab="0" :data="$store.state.data" />
+      <ToDoBody :tab="0"/>
     </tab>
     <tab title="Active">
-      <ToDoBody :tab="1" :data="$store.getters.getActiveToDo" />
+      <ToDoBody :tab="1"/>
     </tab>
     <tab title="Completed">
-      <ToDoBody :tab="2" :data="$store.getters.getCompletedToDo" />
+      <ToDoBody :tab="2"/>
     </tab>
   </tabs>
 </template>
