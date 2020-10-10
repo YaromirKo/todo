@@ -6,9 +6,8 @@
   </div>
   <teleport to="body">
     <Modal v-model:show="updateExists" class="flex items-center justify-center">
-      <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto text-center">
-        test
-        <button @click="refreshApp">go</button>
+      <div @click="refreshApp" class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto text-center">
+        <div class="p-6">An update is available, press me :)</div>
       </div>
     </Modal>
   </teleport>
