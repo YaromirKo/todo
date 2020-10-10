@@ -4,10 +4,19 @@ const saveData = (state) => {
     localStorage.setItem('data-todo', JSON.stringify(state.data))
 }
 
+const createID = () => {
+    return Array(16)
+            .fill(0)
+            .map(() => String.fromCharCode(Math.floor(Math.random() * 26) + 97))
+            .join('') + Date.now().toString(24);
+}
+
+let data = localStorage['data-todo'] ? JSON.parse(localStorage.getItem('data-todo')) : []
+
 export const store = createStore({
 
     state: () => ({
-        data: localStorage['data-todo'] ? JSON.parse(localStorage.getItem('data-todo')) : []
+        data
     }),
 
     getters: {
@@ -19,7 +28,7 @@ export const store = createStore({
         setToDo(state, todo) {
             if (todo != '') {
                 state.data.push({
-                    id: state.data.length + 1,
+                    id: createID(),
                     item: todo,
                     status: false,
                     date: ''
@@ -37,6 +46,23 @@ export const store = createStore({
                 state.data.splice(state.data.findIndex(el => el.id === item.id), 1)
             })
             saveData(state)
+        },
+        saveToDo(state) {
+            saveData(state)
+        },
+        updateToDo(state, payload) {
+            state.data.find(item => item.id === payload.id).item = payload.text.trim()
+        }
+    },
+
+    actions: {
+        updateToDo({commit}, payload) {
+            if (payload.text.trim() != '') {
+                commit('updateToDo', payload)
+            } else {
+                commit('deleteToDo', payload.id)
+            }
+            commit('saveToDo')
         }
     }
 })

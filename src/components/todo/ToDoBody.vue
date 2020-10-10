@@ -7,24 +7,24 @@
     </div>
   </div>
 
-  <ul class="flex flex-col sm:pt-6 sm:px-5">
-    <transition-group name="slide-fade">
-      <li v-for="(item, index) in $props.data" :key="item.id" class="p-2 flex justify-between items-center hover:bg-gray-200 rounded">
-        <div class="flex items-center w-4/5">
-          <input v-model="item.status" type="checkbox" class="form-checkbox cursor-pointer mr-2">
-          <pre :id="index" class="text-lg font-medium leading-5 w-4/5 outline-none" :class="{'line-through': item.status}">{{item.item}}</pre>
-        </div>
-        <div v-if="$props.tab !== 0" @click="deleteToDo(item.id)" class="material-icons cursor-pointer">delete_outline</div>
-      </li>
-    </transition-group>
-  </ul>
-
-  <div class="flex justify-end pr-5" v-if="$props.tab === 2 && getToDos.length">
+  <div class="flex justify-end pr-5 mt-6" v-if="$props.tab === 2 && getToDos.length">
     <button @click="deleteAllToDo" class="flex items-center text-white rounded-input-text text-xs bg-red-500 px-5 py-2 focus:outline-none">
       <span class="material-icons cursor-pointer text-white">delete_outline</span>
       delete all
     </button>
   </div>
+
+  <ul class="flex flex-col sm:pt-6 sm:px-5">
+    <transition-group name="slide-fade">
+      <li v-for="(item, index) in getToDos" :key="item.id" class="p-2 flex justify-between items-center hover:bg-gray-200 rounded">
+        <div class="flex items-center w-4/5">
+          <input v-model="item.status" @change="saveToDo" type="checkbox" class="form-checkbox cursor-pointer mr-2">
+          <pre :contenteditable="$props.tab !== 2 && !item.status" @blur="editContent($event, item)" :id="index" class="text-lg font-medium leading-5 w-4/5 outline-none" :class="{'line-through': item.status}">{{item.item}}</pre>
+        </div>
+        <div v-if="$props.tab !== 0" @click="deleteToDo(item.id)" class="material-icons cursor-pointer">delete_outline</div>
+      </li>
+    </transition-group>
+  </ul>
 </template>
 
 <script>
@@ -37,9 +37,6 @@ export default {
   props: {
     tab: {
       type: Number
-    },
-    data: {
-      type: Array
     }
   },
   setup(props) {
@@ -55,11 +52,18 @@ export default {
       toDo.value = ''
     }
 
+    const editContent = (event, item) => {
+      store.dispatch('updateToDo', {
+        text: event.target.innerText,
+        id: item.id
+      })
+    }
+
     return {
       toDo,
       getToDos,
-      pushToDo,
-      ...mapMutations(['deleteToDo', 'deleteAllToDo'])
+      pushToDo, editContent,
+      ...mapMutations(['deleteToDo', 'deleteAllToDo', 'saveToDo'])
     }
   }
 }
@@ -77,7 +81,7 @@ pre {
   transition: all .3s ease;
 }
 .slide-fade-leave-active {
-  transition: all 5s ease-in;
+  transition: all 3s ease-in;
 }
 .slide-fade-enter, .slide-fade-leave-to
   /* .slide-fade-leave-active below version 2.1.8 */ {
