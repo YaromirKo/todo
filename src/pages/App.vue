@@ -38,13 +38,15 @@ export default {
     document.addEventListener('swUpdated', this.updateAvailable, { once: true })
 
     // Prevent multiple refreshes
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (!this.refreshing) {
-        this.refreshing = true
-        // Here the actual reload of the page occurs
-        window.location.reload()
-      }
-    })
+    if (process.env.NODE_ENV === 'production') {
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!this.refreshing) {
+          this.refreshing = true
+          // Here the actual reload of the page occurs
+          window.location.reload()
+        }
+      })
+    }
   },
 
   methods: {

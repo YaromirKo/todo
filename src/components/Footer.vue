@@ -4,7 +4,8 @@
       <a href="https://portfolio.devchallenges.io/YaromirKo">YaromirKo</a>
       <span class="mx-1">@</span>
       <a href="https://devchallenges.io/">DevChallenges.io</a>
-      <span class="ml-5">{{getYear}}</span>
+      <span class="mx-5">{{getYear}}</span>
+      <small>v.{{version}}</small>
     </div>
   </div>
 </template>
@@ -13,6 +14,9 @@
 export default {
   name: "Footer",
   computed: {
+    version() {
+      return process.env.VUE_APP_VERSION
+    },
     getYear() {
       const thereat = 2020
       let now = (new Date()).getFullYear()
