@@ -10,7 +10,8 @@ import './registerServiceWorker'
 import { store } from './store/index'
 app.use(store)
 
-import NotificationsPlugin from "@/components/Notifications/notify.js";
-app.use(NotificationsPlugin)
+
+import {notification, initialization} from '@/components/Notifications'
+app.provide(notification, initialization())
 
 app.mount('#app')

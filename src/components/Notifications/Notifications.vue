@@ -1,45 +1,24 @@
 <template>
   <div class="">
-    <div v-for="i in 10" :key="i">{{i}}</div>
-
-      <notification
-          v-for="notification in notifications"
-          v-bind="notification"
-          :key="notification.timestamp.getTime()"
-          @close="removeNotification"> {{notification}}</notification>
+    <div v-for="(item, index) in notify.notification.arr" :key="index" @click="notify.close(item.id)">
+      {{item}}, {{index}}
+    </div>
   </div>
 </template>
+
 <script>
-import Notification from './Notification.vue';
+import {injectNotification} from "./index";
 
 export default {
-  components: {
-    Notification
-  },
-  props: {
-    overlap: {
-      type: Boolean,
-      default: false
-    }
-  },
-  data() {
+  name: "Notifications",
+  setup() {
     return {
-      notifications: this.$notifications.state
-    };
-  },
-  methods: {
-    removeNotification() {
-      // this.$notifications.removeNotification(timestamp);
+      notify: injectNotification()
     }
-  },
-  created() {
-    console.log('cre', this.notifications)
-    this.$notifications.settings.overlap = this.overlap;
-  },
-  // watch: {
-  //   overlap: function (newVal) {
-  //     this.$notifications.settings.overlap = newVal;
-  //   }
-  // }
-};
+  }
+}
 </script>
+
+<style scoped>
+
+</style>

@@ -8,30 +8,29 @@
 </template>
 
 <script>
+import {injectNotification} from "@/components/Notifications";
 
 export default {
   name: "Header",
-  mounted() {
-    setTimeout(()=> {
-      this.$notify({
-        message: 'новый текст 1'
-      })
-      this.$notify({
-        message: 'новый текст 2'
-      })
-      this.$notify({
-        message: 'новый текст 3'
-      })
-    }, 0)
+  setup() {
+    const notify = injectNotification()
 
-    // setTimeout(() => {
-    //   this.$notify({
-    //     type: "danger",
-    //     message: 'новый текстовый текстовый текстовый текстовый текстовый текст'
-    //   })
-    // }, 5000)
+      setTimeout(() => {
+        notify.set({
+          mes: 'test'
+        })
+      })
+      setTimeout(() => {
+        notify.set({
+          mes: 'test 2'
+        })
+      }, 7000)
+      setTimeout(() => {
+        notify.set({
+          mes: 'test 3'
+        })
+      }, 15000)
   }
-
 }
 </script>
 
