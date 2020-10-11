@@ -11,6 +11,9 @@
       </div>
     </Modal>
   </teleport>
+  <teleport to="body">
+    <notifications></notifications>
+  </teleport>
 </template>
 <script>
 import Header from "@/components/Header";
@@ -47,6 +50,9 @@ export default {
         }
       })
     }
+  },
+  mounted() {
+
   },
 
   methods: {

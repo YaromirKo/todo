@@ -1,24 +1,37 @@
 <template>
   <header class="text-center ">
     <p class="text-4xl font-bold leading-10">#todo</p>
-    <small v-show="show" class="bg-red-300 rounded p-2">All your notes are saved locally in your browser</small>
+<!--    <Notification>-->
+<!--      <small class="bg-red-300 rounded p-2">All your notes are saved locally in your browser</small>-->
+<!--    </Notification>-->
   </header>
 </template>
 
 <script>
-import {ref, onMounted} from 'vue'
 
 export default {
   name: "Header",
-  setup() {
-    const show = ref(true)
-    onMounted(() => {
-      setTimeout(() => {
-        show.value = false
-      }, 10000)
-    })
-    return {show}
+  mounted() {
+    setTimeout(()=> {
+      this.$notify({
+        message: 'новый текст 1'
+      })
+      this.$notify({
+        message: 'новый текст 2'
+      })
+      this.$notify({
+        message: 'новый текст 3'
+      })
+    }, 0)
+
+    // setTimeout(() => {
+    //   this.$notify({
+    //     type: "danger",
+    //     message: 'новый текстовый текстовый текстовый текстовый текстовый текст'
+    //   })
+    // }, 5000)
   }
+
 }
 </script>
 
