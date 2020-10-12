@@ -2,7 +2,6 @@
   <div class="container grid grid-rows-layout h-screen mx-auto pt-8 sm:px-24">
     <Header/>
     <ToDo/>
-    <Footer/>
   </div>
   <teleport to="body">
     <Modal v-model:show="updateExists" class="flex items-center justify-center">
@@ -16,16 +15,14 @@
 <script>
 import Header from "@/components/Header";
 import ToDo from "@/components/todo/ToDo";
-import Footer from "@/components/Footer";
 import Modal from "@/components/Modal";
-import Notifications from "@/components/Notifications/Notifications";
+import Notifications from "@/plugins/Notifications/Notifications";
 
 export default {
   name: 'App',
   components: {
     Header,
     ToDo,
-    Footer,
     Modal,
     Notifications
   },
