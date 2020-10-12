@@ -1,11 +1,13 @@
 <template>
-  <div class="flex justify-center w-full bg-white">
+  <div class="flex justify-center">
     <div class="text-center">
       <a href="https://portfolio.devchallenges.io/YaromirKo">YaromirKo</a>
       <span class="mx-1">@</span>
       <a href="https://devchallenges.io/">DevChallenges.io</a>
-      <span class="mx-5">{{getYear}}</span>
-      <small>v.{{version}}</small>
+      <div>
+        <span class="mx-5">{{getYear}}</span>
+        <small>v.{{version}}</small>
+      </div>
     </div>
   </div>
 </template>
