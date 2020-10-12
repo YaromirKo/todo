@@ -1,23 +1,21 @@
 <template>
   <header class="text-center ">
     <p class="text-4xl font-bold leading-10">#todo</p>
-    <small v-show="show" class="bg-red-300 rounded p-2">All your notes are saved locally in your browser</small>
   </header>
 </template>
 
 <script>
-import {ref, onMounted} from 'vue'
+import {injectNotification} from "@/components/Notifications";
 
 export default {
   name: "Header",
   setup() {
-    const show = ref(true)
-    onMounted(() => {
-      setTimeout(() => {
-        show.value = false
-      }, 10000)
+    const notify = injectNotification()
+    notify.set({
+      mes: 'All your notes are saved locally in your browser',
+      type: 'danger',
+      timer: 10*1000
     })
-    return {show}
   }
 }
 </script>

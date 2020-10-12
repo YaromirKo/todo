@@ -11,12 +11,14 @@
       </div>
     </Modal>
   </teleport>
+  <notifications></notifications>
 </template>
 <script>
 import Header from "@/components/Header";
 import ToDo from "@/components/todo/ToDo";
 import Footer from "@/components/Footer";
 import Modal from "@/components/Modal";
+import Notifications from "@/components/Notifications/Notifications";
 
 export default {
   name: 'App',
@@ -24,7 +26,8 @@ export default {
     Header,
     ToDo,
     Footer,
-    Modal
+    Modal,
+    Notifications
   },
   data() {
     return {
@@ -48,7 +51,6 @@ export default {
       })
     }
   },
-
   methods: {
     // Store the SW registration so we can send it a message
     // We use `updateExists` to control whatever alert, toast, dialog, etc we want to use
