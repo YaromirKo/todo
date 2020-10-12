@@ -11,7 +11,7 @@ import { store } from './store/index'
 app.use(store)
 
 
-import {notification, initialization} from '@/components/Notifications'
-app.provide(notification, initialization())
+import {Notify} from '@/components/Notifications'
+app.use(Notify)
 
 app.mount('#app')

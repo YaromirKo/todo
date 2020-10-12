@@ -11,9 +11,7 @@
       </div>
     </Modal>
   </teleport>
-  <teleport to="body">
-    <notifications></notifications>
-  </teleport>
+  <notifications></notifications>
 </template>
 <script>
 import Header from "@/components/Header";
@@ -53,10 +51,6 @@ export default {
       })
     }
   },
-  mounted() {
-
-  },
-
   methods: {
     // Store the SW registration so we can send it a message
     // We use `updateExists` to control whatever alert, toast, dialog, etc we want to use

@@ -1,15 +1,15 @@
 import {reactive, inject} from "vue";
 
-export const initialization = () => {
+const initialization = () => {
     const notification = reactive({
-        arr: [],
-        timer: []
+        arr: []
     })
 
     const set = (obj) => {
-        console.log(obj)
+        let id = Date.now()
         notification.arr.push({
-            id: Date.now(),
+            id,
+            timer: obj.timer ? closeByTimer(id, obj.timer) : ()=>{},
             ...obj
         })
     }
@@ -19,7 +19,10 @@ export const initialization = () => {
             notification.arr.splice(indexToDelete, 1);
         }
     }
+    const closeByTimer = (id, timer) => setTimeout(() => { close(id) }, timer)
+
     const get = () => notification.arr
+
 
     return {
         notification,
@@ -27,10 +30,20 @@ export const initialization = () => {
     }
 
 }
-
-
 export const notification = Symbol('notification')
-
 // export const provideNotification = () => provide(notification, initialization())
 
 export const injectNotification = () => inject(notification)
+
+export const Notify = {
+    install: (app) => {
+        app.provide(notification, initialization())
+        app.config.globalProperties.$notify = obj => {
+            injectNotification().set(obj)
+        }
+    }
+}
+
+
+
+
