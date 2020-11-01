@@ -42,7 +42,7 @@ export default {
   },
   setup(props) {
     const getToDos = computed(() => {
-      return props.tab === 0 ? store.state.data : props.tab === 1 ? store.getters.getActiveToDo : store.getters.getCompletedToDo
+      return props.tab === 0 ? store.state.todo.data : props.tab === 1 ? store.getters.getActiveToDo : store.getters.getCompletedToDo
     })
 
     const toDo = ref('')
