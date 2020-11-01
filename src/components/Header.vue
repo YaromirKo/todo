@@ -41,6 +41,10 @@
       <button class="m-2 fixed right-0" aria-label="Open Menu" @click="close">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><g fill="#626262"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.116 8l-4.558 4.558l.884.884L8 8.884l4.558 4.558l.884-.884L8.884 8l4.558-4.558l-.884-.884L8 7.116L3.442 2.558l-.884.884L7.116 8z"/></g></svg>
       </button>
+      <div>
+        <router-link to="/login">Login Page</router-link>
+        <router-link to="/register">Register Page</router-link>
+      </div>
       <div class="flex items-center justify-center w-full"><p>coming soon, maybe :)</p></div>
       <div class="fixed bottom-0 w-full">
         <Footer/>
