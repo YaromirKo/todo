@@ -1,3 +1,5 @@
+import http from '@/service'
+
 const saveData = (state) => {
     localStorage.setItem('data-todo', JSON.stringify(state.data))
 }
@@ -24,12 +26,7 @@ export default {
     mutations: {
         setToDo(state, todo) {
             if (todo != '') {
-                state.data.push({
-                    id: createID(),
-                    item: todo,
-                    status: false,
-                    date: ''
-                })
+                state.data.push(todo)
             }
             saveData(state)
         },
@@ -60,6 +57,22 @@ export default {
                 commit('deleteToDo', payload.id)
             }
             commit('saveToDo')
+        },
+        setToDo({commit}, text) {
+            let user = {
+                text,
+                status: false,
+                date: '',
+                _id: createID()
+            }
+            http().post('/api/todo/new', user)
+                .then(res => {
+                    commit('setToDo', res.data.todo)
+                })
+                .catch(err => {
+                    console.log(err)
+                    commit('setToDo', user)
+                })
         }
     }
 }

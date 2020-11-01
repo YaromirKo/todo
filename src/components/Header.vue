@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import {injectNotification} from "@/plugins/Notifications";
+// import {injectNotification} from "@/plugins/Notifications";
 
 import Footer from "@/components/Footer";
 
@@ -66,13 +66,13 @@ export default {
     Footer
   },
   setup() {
-    const notify = injectNotification()
-
-    notify.set({
-      mes: 'All your notes are saved locally in your browser',
-      type: 'danger',
-      timer: 10*1000
-    })
+    // const notify = injectNotification()
+    //
+    // notify.set({
+    //   mes: 'All your notes are saved locally in your browser',
+    //   type: 'danger',
+    //   timer: 10*1000
+    // })
 
     const isOpen = ref(false)
 

@@ -1,12 +1,18 @@
 import axios from 'axios'
 
+const user = localStorage.getItem('user')
+
 export default {
     state: () => ({
-        name: '',
-        email: '',
-        accessToken: '',
-        photo: '',
+        data: user ? JSON.parse(user) : {}
     }),
+
+    mutations: {
+        setUser(state, data) {
+            state.data = data
+            localStorage.setItem('user', JSON.stringify(data))
+        }
+    },
 
     actions: {
         login(user) {

@@ -25,7 +25,7 @@
         <!--        </a>-->
       </div>
     </form>
-    <div class="google-btn cursor-pointer hover:bg-blue-600">
+    <div @click="sendGoogle" class="google-btn cursor-pointer hover:bg-blue-600">
       <div class="google-icon-wrapper">
         <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
       </div>
@@ -38,23 +38,39 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
-import axios from 'axios'
+import { reactive, onUnmounted } from 'vue'
+// import axios from 'axios'
+import {store} from '@/store'
+import router from "@/router";
 
 export default {
   name: "Login",
   setup() {
+    const handleMessage = (e, callback) => {
+      if (typeof callback === 'function' && e.data.auth === 'passport' && e.origin === 'http://localhost:8000') { callback(e.data); }
+    }
+
+    function sendGoogle() {
+      window.open("http://localhost:8000/api/auth/google");
+    }
+    function handleOAuthMessageCb(e) {
+      return handleMessage(e, data => {
+        store.commit('setUser', data)
+        router.push('/')
+      });
+    }
+    window.addEventListener('message', handleOAuthMessageCb);
+    onUnmounted(() => {
+      window.removeEventListener('message', handleOAuthMessageCb)
+    })
+
     const user = reactive({
       email: '',
       password: '',
     })
-
-    function googleAuth() {
-      axios.get('http://localhost:8000/api/auth/google')
-    }
     return {
       user,
-      googleAuth
+      sendGoogle
     }
   }
 }
