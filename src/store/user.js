@@ -15,10 +15,11 @@ export default {
     },
 
     actions: {
-        login(user) {
-            return axios.post('http://localhost:8000', user)
+        login({commit}, credential) {
+            return axios.post('http://localhost:8000/api/auth/login', credential)
                 .then(res => {
-                    return res
+                    commit('setUser', res.data)
+                    return { status: 1 }
                 })
                 .catch(err => {
                     return err

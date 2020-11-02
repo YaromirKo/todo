@@ -32,6 +32,7 @@
         <!--        </a>-->
       </div>
     </form>
+    <GoogleBtn text="Sign up with google"/>
     <!--    <p class="text-center text-gray-500 text-xs">-->
     <!--      &copy;2020 Acme Corp. All rights reserved.-->
     <!--    </p>-->
@@ -39,8 +40,13 @@
 </template>
 
 <script>
+import GoogleBtn from "@/components/buttons/GoogleBtn";
+
 export default {
-  name: "Register"
+  name: "Register",
+  components: {
+    GoogleBtn
+  }
 }
 </script>
 
