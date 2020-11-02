@@ -5,13 +5,13 @@
         <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
           Email
         </label>
-        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="email" placeholder="email">
+        <input v-model="user.email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="email" placeholder="email">
       </div>
       <div class="mb-6">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
           Password
         </label>
-        <input class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************">
+        <input v-model="user.password" class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************">
         <p class="text-red-500 text-xs italic">Please choose a password.</p>
       </div>
       <div class="flex items-center justify-between">
@@ -25,7 +25,7 @@
         <!--        </a>-->
       </div>
     </form>
-    <div class="google-btn cursor-pointer hover:bg-blue-600">
+    <div @click="sendGoogle" class="google-btn cursor-pointer hover:bg-blue-600">
       <div class="google-icon-wrapper">
         <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
       </div>
@@ -38,8 +38,41 @@
 </template>
 
 <script>
+import { reactive, onUnmounted } from 'vue'
+// import axios from 'axios'
+import {store} from '@/store'
+import router from "@/router";
+
 export default {
-  name: "Login"
+  name: "Login",
+  setup() {
+    const handleMessage = (e, callback) => {
+      if (typeof callback === 'function' && e.data.auth === 'passport' && e.origin === 'http://localhost:8000') { callback(e.data); }
+    }
+
+    function sendGoogle() {
+      window.open("http://localhost:8000/api/auth/google");
+    }
+    function handleOAuthMessageCb(e) {
+      return handleMessage(e, data => {
+        store.commit('setUser', data)
+        router.push('/')
+      });
+    }
+    window.addEventListener('message', handleOAuthMessageCb);
+    onUnmounted(() => {
+      window.removeEventListener('message', handleOAuthMessageCb)
+    })
+
+    const user = reactive({
+      email: '',
+      password: '',
+    })
+    return {
+      user,
+      sendGoogle
+    }
+  }
 }
 </script>
 
