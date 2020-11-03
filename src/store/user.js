@@ -11,6 +11,10 @@ export default {
         setUser(state, data) {
             state.data = data
             localStorage.setItem('user', JSON.stringify(data))
+        },
+        logout(state) {
+            state.data = {}
+            localStorage.removeItem('user')
         }
     },
 
@@ -22,8 +26,11 @@ export default {
                     return { status: 1 }
                 })
                 .catch(err => {
-                    return err
+                    return {status: 0, err}
                 })
+        },
+        logout({commit}) {
+            commit('logout')
         }
     }
 }

@@ -1,7 +1,9 @@
 <template>
 
-  <div class="container grid grid-rows-layout h-screen mx-auto pt-8 sm:px-24">
-    <router-view />
+  <div class="">
+    <div class="container grid grid-rows-layout h-screen mx-auto pt-8 sm:px-24">
+      <router-view />
+    </div>
   </div>
 
   <teleport to="body">
@@ -16,7 +18,6 @@
 <script>
 import Modal from "@/components/Modal";
 import Notifications from "@/plugins/Notifications/Notifications";
-import {store} from "@/store";
 
 export default {
   name: 'App',
@@ -43,22 +44,6 @@ export default {
           // Here the actual reload of the page occurs
           window.location.reload()
         }
-      })
-    }
-  },
-  mounted() {
-    const userData = store.state.user.data
-    if (Object.entries(userData).length === 0) {
-      this.$notify({
-        mes: 'All your notes are saved locally in your browser',
-        type: 'danger',
-        timer: 10*1000
-      })
-    } else {
-      this.$notify({
-        mes: `Hi ${userData.name ? userData.name : ''}, good luck`,
-        type: 'success',
-        timer: 3*1000
       })
     }
   },
