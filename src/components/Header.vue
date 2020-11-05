@@ -36,29 +36,76 @@
       </div>
     </transition>
 
-    <aside class="transform top-0 left-0 w-64 bg-gray-200 fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30 flex"
+    <aside class="transform top-0 left-0 w-64 bg-gray-200 fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30 flex bg-gray-800"
            :class="isOpen ? 'translate-x-0' : '-translate-x-full'">
       <button class="m-2 fixed right-0" aria-label="Open Menu" @click="close">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><g fill="#626262"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.116 8l-4.558 4.558l.884.884L8 8.884l4.558 4.558l.884-.884L8.884 8l4.558-4.558l-.884-.884L8 7.116L3.442 2.558l-.884.884L7.116 8z"/></g></svg>
       </button>
-      <div>
-        <router-link to="/login">Login Page</router-link>
-        <router-link to="/register">Register Page</router-link>
+      <div class="w-64 h-screen">
+        <nav class="mt-10">
+          <div v-if="logged">
+            <div class="w-full flex justify-between items-center py-3 text-gray-100">
+              <span class="flex items-center">
+                <span class="mx-4 font-medium">{{ store.state.user.data.displayName ? store.state.user.data.displayName : store.state.user.data.email.split('@')[0] }}</span>
+                <span v-if="store.state.user.data.photo">
+                  <img :src="store.state.user.data.photo" alt="photo" class="inline-block h-6 w-6 rounded-full text-white shadow-solid">
+                </span>
+                <span v-else class="material-icons">account_circle</span>
+              </span>
+
+            </div>
+            <button @click="logout" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-red-500 focus:outline-none">
+              <span class="flex items-center">
+                  <span class="mx-4 font-medium">Logout</span>
+              </span>
+            </button>
+          </div>
+          <div v-else>
+            <router-link to="/login">
+              <button class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
+                <span class="flex items-center">
+                    <span class="mx-4 font-medium">
+                      Login
+                    </span>
+                </span>
+              </button>
+            </router-link>
+            <router-link to="/register">
+              <button class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
+                <span class="flex items-center">
+                    <span class="mx-4 font-medium">
+                      Register
+                    </span>
+                </span>
+              </button>
+            </router-link>
+          </div>
+
+        </nav>
+
+        <div class="fixed bottom-0 w-full text-white">
+          <Footer/>
+        </div>
       </div>
-      <div class="flex items-center justify-center w-full"><p>coming soon, maybe :)</p></div>
-      <div class="fixed bottom-0 w-full">
-        <Footer/>
-      </div>
+<!--      <div>-->
+<!--        <router-link to="/login">Login Page</router-link>-->
+<!--        <router-link to="/register">Register Page</router-link>-->
+<!--      </div>-->
+<!--      <button @click="logout">Logout</button>-->
+<!--      <div class="flex items-center justify-center w-full"><p>coming soon, maybe :)</p></div>-->
+
     </aside>
   </nav>
 </template>
 
 <script>
-// import {injectNotification} from "@/plugins/Notifications";
+import {injectNotification} from "@/plugins/Notifications";
 
 import Footer from "@/components/Footer";
 
-import {ref, watch, onMounted} from 'vue';
+import {ref, computed, watch, onMounted} from 'vue';
+
+import {store} from "@/store";
 
 export default {
   name: "Header",
@@ -66,20 +113,15 @@ export default {
     Footer
   },
   setup() {
-    // const notify = injectNotification()
-    //
-    // notify.set({
-    //   mes: 'All your notes are saved locally in your browser',
-    //   type: 'danger',
-    //   timer: 10*1000
-    // })
-
+    const notify = injectNotification()
     const isOpen = ref(false)
 
     watch(isOpen, () => {
-        if (isOpen.value) document.body.style.setProperty("overflow", "hidden");
-        else document.body.style.removeProperty("overflow");
+      if (isOpen.value) document.body.style.setProperty("overflow", "hidden");
+      else document.body.style.removeProperty("overflow");
     })
+
+    const logged = computed(() => Object.entries(store.state.user.data).length !== 0)
 
     const close = () => isOpen.value = !isOpen.value
 
@@ -89,7 +131,20 @@ export default {
       });
     })
 
-    return {isOpen, close}
+    function logout() {
+      store.dispatch('logout')
+      notify.set({
+        mes: 'You are logged out of your account, all your notes are saved locally in your browser',
+        type: 'warning',
+        timer: 5*1000
+      })
+    }
+
+    return {
+      store,
+      isOpen, logged,
+      close, logout
+    }
   }
 }
 </script>

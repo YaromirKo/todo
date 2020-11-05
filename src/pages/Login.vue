@@ -1,21 +1,26 @@
 <template>
   <div class="w-full max-w-xs mx-auto">
-    <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <Form @submit="login" :validation-schema="schema" v-slot="{ errors }" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
           Email
         </label>
-        <input v-model="user.email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="email" placeholder="email">
+        <Field name="email" as="input" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
+                                      :class="{'border-red-500' : errors.email}"/>
+        <span class="text-red-500">{{ errors.email }}</span>
       </div>
+
       <div class="mb-6">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
           Password
         </label>
-        <input v-model="user.password" class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************">
-        <p class="text-red-500 text-xs italic">Please choose a password.</p>
+        <Field name="password" as="input" type="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none"
+                                                         :class="{'border-red-500' : errors.password}"/>
+        <span class="text-red-500">{{ errors.password }}</span>
       </div>
+
       <div class="flex items-center justify-between">
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
           Sign In
         </button>
         or
@@ -24,90 +29,65 @@
         <!--          Forgot Password?-->
         <!--        </a>-->
       </div>
-    </form>
-    <div @click="sendGoogle" class="google-btn cursor-pointer hover:bg-blue-600">
-      <div class="google-icon-wrapper">
-        <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
-      </div>
-      <p class="btn-text"><b>Sign in with google</b></p>
-    </div>
-    <!--    <p class="text-center text-gray-500 text-xs">-->
-    <!--      &copy;2020 Acme Corp. All rights reserved.-->
-    <!--    </p>-->
+    </Form>
+
+    <GoogleBtn text="Sign in with google"/>
   </div>
 </template>
 
 <script>
-import { reactive, onUnmounted } from 'vue'
-// import axios from 'axios'
-import {store} from '@/store'
+import { markRaw } from 'vue';
+import { Form, Field } from 'vee-validate';
+import * as yup from 'yup';
+
+import {injectNotification} from "@/plugins/Notifications";
+
 import router from "@/router";
+
+import GoogleBtn from "@/components/buttons/GoogleBtn";
+import { store } from '@/store'
+
 
 export default {
   name: "Login",
+  components: {
+    GoogleBtn,
+    Form,
+    Field
+  },
   setup() {
-    const handleMessage = (e, callback) => {
-      if (typeof callback === 'function' && e.data.auth === 'passport' && e.origin === 'http://localhost:8000') { callback(e.data); }
+
+    const notify = injectNotification()
+
+    const schema = markRaw(yup.object().shape({
+      email: yup.string().required().email(),
+      password: yup.string().required().min(6),
+    }))
+
+    function login(credential) {
+      store.dispatch('login', credential)
+      .then(res => {
+        if (res.status === 1) {
+          router.push('/')
+        }
+        if (res.status === 0) {
+          notify.set({
+            mes: res.err.response.data.message,
+            type: 'danger',
+            timer: 3*1000
+          })
+        }
+      })
     }
 
-    function sendGoogle() {
-      window.open("http://localhost:8000/api/auth/google");
-    }
-    function handleOAuthMessageCb(e) {
-      return handleMessage(e, data => {
-        store.commit('setUser', data)
-        router.push('/')
-      });
-    }
-    window.addEventListener('message', handleOAuthMessageCb);
-    onUnmounted(() => {
-      window.removeEventListener('message', handleOAuthMessageCb)
-    })
-
-    const user = reactive({
-      email: '',
-      password: '',
-    })
     return {
-      user,
-      sendGoogle
+      schema,
+      login
     }
   }
 }
 </script>
 
 <style scoped>
-@import url(https://fonts.googleapis.com/css?family=Roboto:500);
 
-.google-btn {
-  width: 184px;
-  height: 42px;
-  background-color: #4285f4;
-  border-radius: 2px;
-  box-shadow: 0 3px 4px 0 rgba(0,0,0,.25);
-}
-.google-icon-wrapper {
-  position: absolute;
-  margin-top: 1px;
-  margin-left: 1px;
-  width: 40px;
-  height: 40px;
-  border-radius: 2px;
-  background-color: #fff;
-}
-.google-icon {
-  position: absolute;
-  margin-top: 11px;
-  margin-left: 11px;
-  width: 18px;
-  height: 18px;
-}
-.btn-text {
-  float: right;
-  margin: 11px 11px 0 0;
-  color: #fff;
-  font-size: 14px;
-  letter-spacing: 0.2px;
-  font-family: "Roboto";
-}
 </style>

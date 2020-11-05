@@ -11,18 +11,26 @@ export default {
         setUser(state, data) {
             state.data = data
             localStorage.setItem('user', JSON.stringify(data))
+        },
+        logout(state) {
+            state.data = {}
+            localStorage.removeItem('user')
         }
     },
 
     actions: {
-        login(user) {
-            return axios.post('http://localhost:8000', user)
+        login({commit}, credential) {
+            return axios.post('http://localhost:8000/api/auth/login', credential)
                 .then(res => {
-                    return res
+                    commit('setUser', res.data)
+                    return { status: 1 }
                 })
                 .catch(err => {
-                    return err
+                    return {status: 0, err}
                 })
+        },
+        logout({commit}) {
+            commit('logout')
         }
     }
 }
