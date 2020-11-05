@@ -21,7 +21,7 @@ export default {
   },
   setup() {
 
-    const api = process.env.API
+    const api = process.env.VUE_APP_API_URL
 
     const handleMessage = (e, callback) => {
       if (typeof callback === 'function' && e.data.auth === 'passport' && e.origin === api) { callback(e.data); }
