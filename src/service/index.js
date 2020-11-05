@@ -14,21 +14,7 @@ export default () => {
     instance.interceptors.response.use((response) => {
         return response
     }, er => {
-        // if (er.response && er.response.status == 401) {
-        //     store.dispatch('user/logout').then(() => {
-        //         redirect('/login')
-        //     })
-        // }
-        //     // else if (er.response && er.response.status) {
-        //     //   error({statusCode: er.response.status})
-        // // }
-        // else if (er.response && er.response.status === 403) {
-        //     error({statusCode: er.response.status})
-        // } else if (er.response && er.response.status === 402) {
-        //     error({statusCode: er.response.status})
-        // } else if (er.response && er.response.status === 404) {
-        //     error({statusCode: er.response.status})
-        // }
+
         return Promise.reject(er)
     })
 
