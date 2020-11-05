@@ -1,4 +1,4 @@
-import http from '@/service'
+import api from '@/service'
 
 const saveData = (state) => {
     localStorage.setItem('data-todo', JSON.stringify(state.data))
@@ -65,7 +65,7 @@ export default {
                 date: '',
                 _id: createID()
             }
-            http().post('/api/todo/new', user)
+            api().post('/api/todo/new', user)
                 .then(res => {
                     commit('setToDo', res.data.todo)
                 })

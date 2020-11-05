@@ -51,11 +51,11 @@ import { Form, Field } from 'vee-validate';
 import * as yup from 'yup';
 
 import {injectNotification} from "@/plugins/Notifications";
+import api from '@/service'
 
 import router from "@/router";
 
 import GoogleBtn from "@/components/buttons/GoogleBtn";
-import axios from "axios";
 
 export default {
   name: "Register",
@@ -76,7 +76,7 @@ export default {
     }))
 
     function register(credential) {
-      axios.post('http://localhost:8000/api/auth/register', credential)
+      api().post('/api/auth/register', credential)
           .then(res => {
             notify.set({
               mes: res.data.message,

@@ -20,12 +20,15 @@ export default {
     }
   },
   setup() {
+
+    const api = process.env.API
+
     const handleMessage = (e, callback) => {
-      if (typeof callback === 'function' && e.data.auth === 'passport' && e.origin === 'http://localhost:8000') { callback(e.data); }
+      if (typeof callback === 'function' && e.data.auth === 'passport' && e.origin === api) { callback(e.data); }
     }
 
     function sendGoogle() {
-      window.open("http://localhost:8000/api/auth/google");
+      window.open(`${api}/api/auth/google`);
     }
     function handleOAuthMessageCb(e) {
       return handleMessage(e, data => {

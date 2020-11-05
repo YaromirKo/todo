@@ -20,7 +20,7 @@ export default {
 
     actions: {
         login({commit}, credential) {
-            return axios.post('http://localhost:8000/api/auth/login', credential)
+            return axios.post(`${process.env.VUE_APP_API_URL}/api/auth/login`, credential)
                 .then(res => {
                     commit('setUser', res.data)
                     return { status: 1 }
