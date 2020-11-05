@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import App from './pages/App.vue'
+import router from "@/router";
 const app = createApp(App)
 
 
@@ -17,4 +18,4 @@ app.use(Notify)
 // import clickOutside from './plugins/click-outside.js'
 // app.directive('click-outside', clickOutside);
 
-app.mount('#app')
+app.use(router).mount('#app')

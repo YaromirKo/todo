@@ -1,8 +1,11 @@
 <template>
-  <div class="container grid grid-rows-layout h-screen mx-auto pt-8 sm:px-24">
-    <Header/>
-    <ToDo/>
+
+  <div class="">
+    <div class="container grid grid-rows-layout h-screen mx-auto pt-8 sm:px-24">
+      <router-view />
+    </div>
   </div>
+
   <teleport to="body">
     <Modal v-model:show="updateExists" class="flex items-center justify-center">
       <div @click="refreshApp" class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto text-center">
@@ -13,16 +16,12 @@
   <notifications></notifications>
 </template>
 <script>
-import Header from "@/components/Header";
-import ToDo from "@/components/todo/ToDo";
 import Modal from "@/components/Modal";
 import Notifications from "@/plugins/Notifications/Notifications";
 
 export default {
   name: 'App',
   components: {
-    Header,
-    ToDo,
     Modal,
     Notifications
   },
