@@ -14,7 +14,6 @@ export default () => {
     instance.interceptors.response.use((response) => {
         return response
     }, er => {
-
         return Promise.reject(er)
     })
 
