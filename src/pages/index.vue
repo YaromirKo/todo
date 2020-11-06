@@ -23,6 +23,7 @@ export default {
         timer: 10*1000
       })
     } else {
+      store.dispatch('getTodos')
       this.$notify({
         mes: `Hi ${userData.displayName ? userData.displayName : userData.email}, good luck`,
         type: 'success',
