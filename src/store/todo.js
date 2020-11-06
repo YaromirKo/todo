@@ -1,21 +1,18 @@
 import api from '@/service'
+const ObjectID = require("bson-objectid")
 
 const saveData = (state) => {
     localStorage.setItem('data-todo', JSON.stringify(state.data))
-}
-
-const createID = () => {
-    return Array(16)
-        .fill(0)
-        .map(() => String.fromCharCode(Math.floor(Math.random() * 26) + 97))
-        .join('') + Date.now().toString(24);
+    localStorage.setItem('del-data-promise', JSON.stringify(state.delDataPromise))
 }
 
 let data = localStorage['data-todo'] ? JSON.parse(localStorage.getItem('data-todo')) : []
+let delDataPromise = localStorage['del-data-promise'] ? JSON.parse(localStorage.getItem('del-data-promise')) : []
 
 export default {
     state: () => ({
-        data
+        data,
+        delDataPromise
     }),
 
     getters: {
@@ -24,20 +21,25 @@ export default {
     },
 
     mutations: {
+        setToDos(state, todos) {
+            state.data = todos
+        },
         setToDo(state, todo) {
             if (todo != '') {
                 state.data.push(todo)
             }
             saveData(state)
         },
-        deleteToDo(state, id) {
-            state.data.splice(state.data.findIndex(item => item.id === id), 1)
+        deleteToDo(state, _id) {
+            state.delDataPromise.push({_id})
+            state.data.splice(state.data.findIndex(item => item._id === _id), 1)
             saveData(state)
         },
         deleteAllToDo(state) {
             let tmp = state.data.filter(item => item.status)
             tmp.forEach(item => {
-                state.data.splice(state.data.findIndex(el => el.id === item.id), 1)
+                state.delDataPromise.push({_id: item._id})
+                state.data.splice(state.data.findIndex(el => el._id === item._id), 1)
             })
             saveData(state)
         },
@@ -45,34 +47,49 @@ export default {
             saveData(state)
         },
         updateToDo(state, payload) {
-            state.data.find(item => item.id === payload.id).item = payload.text.trim()
+            state.data.find(item => item._id === payload._id).text = payload.text.trim()
+            saveData(state)
         }
     },
 
     actions: {
-        updateToDo({commit}, payload) {
-            if (payload.text.trim() != '') {
-                commit('updateToDo', payload)
-            } else {
-                commit('deleteToDo', payload.id)
-            }
-            commit('saveToDo')
+        getTodos({commit, state}) {
+            api().post('/api/todo/todos', {data: [...state.data, ...state.delDataPromise]})
+                .then(res => {
+                    localStorage.removeItem('del-data-promise')
+                    commit('setToDos', res.data.todos)
+                    commit('saveToDo')
+                })
+                .catch(err => console.log(err))
         },
         setToDo({commit}, text) {
             let user = {
                 text,
                 status: false,
-                date: '',
-                _id: createID()
+                date: new Date,
+                _id: ObjectID().str
             }
+            commit('setToDo', user)
             api().post('/api/todo/new', user)
-                .then(res => {
-                    commit('setToDo', res.data.todo)
-                })
                 .catch(err => {
                     console.log(err)
-                    commit('setToDo', user)
                 })
+        },
+        updateToDo({commit}, payload) {
+            if (payload.text.trim() != '') {
+                commit('updateToDo', payload)
+                api().put('/api/todo/update', payload)
+                    .catch(err => console.log(err))
+            }
+        },
+        deleteToDo({commit}, payload) {
+            if (payload === 'all')  {
+                commit('deleteAllToDo')
+            } else {
+                commit('deleteToDo', payload)
+            }
+            api().delete(`/api/todo/${payload}`)
+                .catch(err => console.log(err))
         }
     }
 }
