@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex w-full items-center px-6 bg-gray-800 rounded">
+  <nav class="flex w-full items-center px-6 py-2 bg-gray-800">
     <div class="flex items-center">
       <button class="mr-2" aria-label="Open Menu" @click="close">
         <svg
