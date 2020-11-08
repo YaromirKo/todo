@@ -1,7 +1,7 @@
 <template>
 
-  <div class="bg-gray-900 text-green-500">
-    <div class="container grid grid-rows-layout h-screen mx-auto lg:pt-4 sm:px-24">
+  <div class="text-green-500">
+    <div class="container grid grid-rows-layout mx-auto lg:pt-4 sm:px-24">
       <router-view />
     </div>
   </div>
@@ -69,7 +69,9 @@ export default {
 </script>
 
 <style>
-
+body {
+  background-color: #1a202c;
+}
 ::-webkit-scrollbar {
   width: 5px;
 }

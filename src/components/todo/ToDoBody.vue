@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$props.tab !== 2" class="flex justify-around pt-8">
+  <div v-if="$props.tab !== 2" class="flex justify-around mt-4">
     <textarea  placeholder="new todo..." class="resize-none sm:w-4/5 w-10/12 rounded-input-text px-2 py-4 bg-gray-800 text-white focus:border-blue-200 outline-none"
                v-model.trim="toDo" rows="1" autofocus></textarea>
     <div>
