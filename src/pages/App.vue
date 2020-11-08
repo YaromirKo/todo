@@ -1,7 +1,7 @@
 <template>
 
-  <div class="">
-    <div class="container grid grid-rows-layout h-screen mx-auto pt-8 sm:px-24">
+  <div class="bg-gray-900 text-green-500">
+    <div class="container grid grid-rows-layout h-screen mx-auto pt-4 sm:px-24">
       <router-view />
     </div>
   </div>
@@ -71,12 +71,12 @@ export default {
 <style>
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
 }
 /* Track */
 ::-webkit-scrollbar-track {
   border-radius: 100vh;
-  background: #edf2f7;
+  background: #488bcb;
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
@@ -86,7 +86,7 @@ export default {
 }
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #a0aec0;
+  background: none;
 }
 * {
   -webkit-touch-callout:none;                /* prevent callout to copy image, etc when tap to hold */
