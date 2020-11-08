@@ -63,7 +63,6 @@ export default {
                     commit('setToDos', res.data.result)
                     commit('deleteDataPromise')
                     commit('saveToDo')
-                    // let todos = res.data.todos.filter(el => !state.data.some(item => el._id === item._id))
                 })
                 .catch(err => console.log(err))
         },

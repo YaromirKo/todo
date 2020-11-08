@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex w-full items-center px-6 bg-white">
+  <nav class="flex w-full items-center px-6 bg-gray-800 rounded">
     <div class="flex items-center">
       <button class="mr-2" aria-label="Open Menu" @click="close">
         <svg
@@ -36,7 +36,7 @@
       </div>
     </transition>
 
-    <aside class="transform top-0 left-0 w-64 bg-gray-200 fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30 flex bg-gray-800"
+    <aside class="transform top-0 left-0 w-64 fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30 flex bg-gray-800"
            :class="isOpen ? 'translate-x-0' : '-translate-x-full'">
       <button class="m-2 fixed right-0" aria-label="Open Menu" @click="close">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><g fill="#626262"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.116 8l-4.558 4.558l.884.884L8 8.884l4.558 4.558l.884-.884L8.884 8l4.558-4.558l-.884-.884L8 7.116L3.442 2.558l-.884.884L7.116 8z"/></g></svg>
@@ -52,7 +52,6 @@
                 </span>
                 <span v-else class="material-icons">account_circle</span>
               </span>
-
             </div>
             <button @click="logout" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-red-500 focus:outline-none">
               <span class="flex items-center">
@@ -87,13 +86,6 @@
           <Footer/>
         </div>
       </div>
-<!--      <div>-->
-<!--        <router-link to="/login">Login Page</router-link>-->
-<!--        <router-link to="/register">Register Page</router-link>-->
-<!--      </div>-->
-<!--      <button @click="logout">Logout</button>-->
-<!--      <div class="flex items-center justify-center w-full"><p>coming soon, maybe :)</p></div>-->
-
     </aside>
   </nav>
 </template>

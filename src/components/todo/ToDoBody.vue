@@ -1,6 +1,6 @@
 <template>
   <div v-if="$props.tab !== 2" class="flex justify-around pt-8">
-    <textarea  placeholder="Add something..." class="resize-none sm:w-4/5 w-10/12 rounded-input-text border-2 px-2 py-4 focus:bg-white focus:border-blue-200 outline-none"
+    <textarea  placeholder="new todo..." class="resize-none sm:w-4/5 w-10/12 rounded-input-text px-2 py-4 bg-gray-800 text-white focus:border-blue-200 outline-none"
                v-model.trim="toDo" rows="1" autofocus></textarea>
     <div>
       <button @click="setToDo" class="text-white rounded-input-text bg-blue-500 px-10 py-4 focus:outline-none">Add</button>
@@ -16,7 +16,7 @@
 
   <ul class="flex flex-col sm:pt-6 pt-2 sm:px-5">
     <transition-group name="slide-fade">
-      <li v-for="(item, index) in getToDos" :key="item._id" class="p-2 mb-2 flex justify-between items-center hover:bg-gray-200 rounded" :class="{'bg-green-200': item.status}">
+      <li v-for="(item, index) in getToDos" :key="item._id" class="p-2 mb-2 flex justify-between items-center bg-gray-800 rounded text-white">
         <div class="flex items-center ">
           <input v-model="item.status" @change="updateToDo(item)" type="checkbox" class="form-checkbox cursor-pointer mr-2">
           <pre :key="updatePre" :contenteditable="$props.tab !== 2 && !item.status" @blur="editContent($event, item)" :id="index"
@@ -41,9 +41,6 @@ export default {
     }
   },
   setup(props) {
-
-
-
     const getToDos = computed(() => {
       return props.tab === 0 ? store.state.todo.data : props.tab === 1 ? store.getters.getActiveToDo : store.getters.getCompletedToDo
     })
