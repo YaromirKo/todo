@@ -9,6 +9,11 @@ const saveData = (state) => {
 let data = localStorage['data-todo'] ? JSON.parse(localStorage.getItem('data-todo')) : []
 let delDataPromise = localStorage['del-data-promise'] ? JSON.parse(localStorage.getItem('del-data-promise')) : []
 
+function middlewareUserCheck(fun) {
+    let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {}
+    if (Object.entries(user).length !== 0) return fun()
+}
+
 export default {
     state: () => ({
         data,
@@ -58,13 +63,15 @@ export default {
 
     actions: {
         getTodos({commit, state}) {
-            api().post('/api/todo/todos', {data: [...state.data, ...state.delDataPromise]})
+            middlewareUserCheck( () =>
+                api().post('/api/todo/todos', {data: [...state.data, ...state.delDataPromise]})
                 .then(res => {
                     commit('setToDos', res.data.result)
                     commit('deleteDataPromise')
                     commit('saveToDo')
                 })
                 .catch(err => console.log(err))
+            )
         },
         setToDo({commit}, text) {
             if (text != '') {
@@ -75,10 +82,10 @@ export default {
                     _id: ObjectID().str
                 }
                 commit('setToDo', user)
-                api().post('/api/todo/new', user)
+                middlewareUserCheck(() => api().post('/api/todo/new', user)
                     .catch(err => {
                         console.log(err)
-                    })
+                    }))
             }
         },
         updateToDo({commit}, payload) {
@@ -88,8 +95,8 @@ export default {
                     date: Date.now()
                 }
                 commit('updateToDo', _payload)
-                api().put('/api/todo/update', _payload)
-                    .catch(err => console.log(err))
+                middlewareUserCheck(()=>api().put('/api/todo/update', _payload)
+                    .catch(err => console.log(err)))
             }
         },
         deleteToDo({commit}, payload) {
@@ -98,8 +105,8 @@ export default {
             } else {
                 commit('deleteToDo', payload)
             }
-            api().delete(`/api/todo/${payload}`)
-                .catch(err => console.log(err))
+            middlewareUserCheck(()=>api().delete(`/api/todo/${payload}`)
+                .catch(err => console.log(err)))
         }
     }
 }
