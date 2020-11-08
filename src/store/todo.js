@@ -68,17 +68,19 @@ export default {
                 .catch(err => console.log(err))
         },
         setToDo({commit}, text) {
-            let user = {
-                text,
-                status: false,
-                date: Date.now(),
-                _id: ObjectID().str
+            if (text != '') {
+                let user = {
+                    text,
+                    status: false,
+                    date: Date.now(),
+                    _id: ObjectID().str
+                }
+                commit('setToDo', user)
+                api().post('/api/todo/new', user)
+                    .catch(err => {
+                        console.log(err)
+                    })
             }
-            commit('setToDo', user)
-            api().post('/api/todo/new', user)
-                .catch(err => {
-                    console.log(err)
-                })
         },
         updateToDo({commit}, payload) {
             if (payload.text.trim() != '') {
