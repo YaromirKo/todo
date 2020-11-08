@@ -1,20 +1,20 @@
 <template>
-  <div class="w-full max-w-xs mx-auto">
+  <div class="w-full max-w-xs mx-auto bg-gray-800 rounded">
     <Form @submit="login" :validation-schema="schema" v-slot="{ errors }" class="shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2">
+        <label class="block text-sm font-bold mb-2">
           Email
         </label>
-        <Field name="email" as="input" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
+        <Field name="email" as="input" class="shadow appearance-none border rounded w-full py-2 px-3 text-white bg-gray-900 leading-tight focus:outline-none"
                                       :class="{'border-red-500' : errors.email}"/>
         <span class="text-red-500">{{ errors.email }}</span>
       </div>
 
       <div class="mb-6">
-        <label class="block text-gray-700 text-sm font-bold mb-2">
+        <label class="block text-sm font-bold mb-2">
           Password
         </label>
-        <Field name="password" as="input" type="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none"
+        <Field name="password" as="input" type="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-white bg-gray-900 mb-3 leading-tight focus:outline-none"
                                                          :class="{'border-red-500' : errors.password}"/>
         <span class="text-red-500">{{ errors.password }}</span>
       </div>
@@ -31,7 +31,9 @@
       </div>
     </Form>
 
-    <GoogleBtn text="Sign in with google"/>
+    <div class="flex justify-center pb-2">
+      <GoogleBtn text="Sign In with google"/>
+    </div>
   </div>
 </template>
 
