@@ -15,7 +15,7 @@ module.exports = {
         'layout': 'auto 1fr auto'
       },
       borderRadius: {
-        'input-text': '0.75rem'
+        'input-text': '0.25rem'
       },
       spacing: {
         '22': '5.563rem'
