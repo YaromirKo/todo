@@ -48,7 +48,11 @@ export default {
         },
         updateToDo(state, payload) {
             state.data.find(item => item._id === payload._id).text = payload.text.trim()
+            state.data.find(item => item._id === payload._id).date = payload.date
             saveData(state)
+        },
+        deleteDataPromise(state) {
+            state.delDataPromise = []
         }
     },
 
@@ -56,9 +60,10 @@ export default {
         getTodos({commit, state}) {
             api().post('/api/todo/todos', {data: [...state.data, ...state.delDataPromise]})
                 .then(res => {
-                    localStorage.removeItem('del-data-promise')
-                    commit('setToDos', res.data.todos)
+                    commit('setToDos', res.data.result)
+                    commit('deleteDataPromise')
                     commit('saveToDo')
+                    // let todos = res.data.todos.filter(el => !state.data.some(item => el._id === item._id))
                 })
                 .catch(err => console.log(err))
         },
@@ -66,7 +71,7 @@ export default {
             let user = {
                 text,
                 status: false,
-                date: new Date,
+                date: Date.now(),
                 _id: ObjectID().str
             }
             commit('setToDo', user)
@@ -77,8 +82,12 @@ export default {
         },
         updateToDo({commit}, payload) {
             if (payload.text.trim() != '') {
-                commit('updateToDo', payload)
-                api().put('/api/todo/update', payload)
+                const _payload = {
+                    ...payload,
+                    date: Date.now()
+                }
+                commit('updateToDo', _payload)
+                api().put('/api/todo/update', _payload)
                     .catch(err => console.log(err))
             }
         },
