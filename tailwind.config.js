@@ -10,6 +10,9 @@ module.exports = {
     variants: {
       backgroundColor: ['responsive', 'hover', 'focus'],
     },
+    minHeight: {
+      '40': '40px'
+    },
     extend: {
       gridTemplateRows: {
         'layout': 'auto 1fr auto'

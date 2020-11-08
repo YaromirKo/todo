@@ -16,7 +16,7 @@
 
   <ul class="flex flex-col sm:pt-6 pt-2 sm:px-5">
     <transition-group name="slide-fade">
-      <li v-for="(item, index) in getToDos" :key="item._id" class="p-2 mb-2 flex justify-between items-center bg-gray-800 rounded text-white">
+      <li v-for="(item, index) in getToDos" :key="item._id" class="p-2 mb-2 flex justify-between items-center bg-gray-800 rounded text-white min-h-40">
         <div class="flex items-center ">
           <input v-model="item.status" @change="updateToDo(item)" type="checkbox" class="form-checkbox cursor-pointer mr-2">
           <pre :key="updatePre" :contenteditable="$props.tab !== 2 && !item.status" @blur="editContent($event, item)" :id="index"
