@@ -88,10 +88,13 @@ export default {
                     }))
             }
         },
-        updateToDo({commit}, payload) {
-            if (payload.text.trim() != '') {
+        updateToDo({commit}, {event, item}) {
+            let newText = event.target.innerText.trim()
+            let oldText = item.text
+            if (newText != '' && newText !== oldText) {
                 const _payload = {
-                    ...payload,
+                    text: newText,
+                    _id: item._id,
                     date: Date.now()
                 }
                 commit('updateToDo', _payload)

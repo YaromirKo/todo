@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex w-full items-center px-6 py-2 bg-gray-800">
+  <nav class="flex w-full items-center px-6 py-2 bg-gray-800 rounded">
     <div class="flex items-center">
       <button class="mr-2" aria-label="Open Menu" @click="close">
         <svg
@@ -15,7 +15,7 @@
       </button>
     </div>
     <div>
-      <p class="text-4xl font-bold leading-10">#todo</p>
+      <p class="text-xl font-bold leading-10">todo</p>
     </div>
 
     <transition

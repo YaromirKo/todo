@@ -20,7 +20,7 @@
         <div class="flex items-center ">
           <input v-model="item.status" @change="updateToDo(item)" type="checkbox" class="form-checkbox cursor-pointer mr-2">
           <pre :key="updatePre" :contenteditable="$props.tab !== 2 && !item.status" @blur="editContent($event, item)" :id="index"
-               class="text-lg font-medium break-all leading-5 outline-none" :class="{'line-through': item.status}">{{item.text}}</pre>
+               class="leading-5 outline-none" :class="{'line-through': item.status}">{{item.text}}</pre>
         </div>
         <div v-if="$props.tab !== 0" @click="deleteToDo(item._id)" class="material-icons cursor-pointer">delete_outline</div>
       </li>
@@ -53,10 +53,7 @@ export default {
 
     const updatePre = ref(true)
     function editContent(event, item) {
-      store.dispatch('updateToDo', {
-        text: event.target.innerText,
-        _id: item._id
-      })
+      store.dispatch('updateToDo', { event, item })
       updatePre.value = !updatePre.value
     }
 
@@ -71,7 +68,7 @@ export default {
 
 <style scoped>
 pre {
-  font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
   white-space: pre-wrap;       /* css-3 */
   white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
   /*white-space: -pre-wrap;      !* Opera 4-6 *!*/
