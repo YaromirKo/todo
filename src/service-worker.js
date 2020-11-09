@@ -21,8 +21,7 @@ self.addEventListener('install', function(e) {
         caches.open(CACHE_VERSION).then(function(cache) {
             return cache.addAll([
                 './',
-                './index.html',
-                'index.html'
+                './index.html'
             ]);
         })
     );
