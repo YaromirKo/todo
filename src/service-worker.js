@@ -56,16 +56,25 @@ self.addEventListener("activate", function(event) {
 //     );
 // });
 
-
-self.addEventListener('fetch', function(event) {
-    console.log(event.request.url);
-
-    event.waitUntil(
+self.addEventListener("fetch", (event) => {
+    console.log("[ServiceWorker] Fetch");
+    event.respondWith(
         caches.match(event.request).then(function(response) {
             return response || fetch(event.request);
         })
     );
+
 });
+
+// self.addEventListener('fetch', function(event) {
+//     console.log(event.request.url);
+//
+//     event.waitUntil(
+//         caches.match(event.request).then(function(response) {
+//             return response || fetch(event.request);
+//         })
+//     );
+// });
 
 
 
