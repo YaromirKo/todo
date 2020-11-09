@@ -2,8 +2,8 @@
 // workbox.precaching.suppressWarnings();
 // workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
-const CACHE_VERSION  = 'v1.9.11.2020.8' //Change this value every time before you build
+// importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
+const CACHE_VERSION  = 'v1.9.11.2020.9' //Change this value every time before you build
 
 self.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'SKIP_WAITING') {
@@ -22,7 +22,6 @@ self.addEventListener('install', function(e) {
             return cache.addAll([
                 './',
                 "index.html",
-                "./index.html",
                 "./css/app.14a6d29b.css",
                 "./js/app.6e0b4853.js",
                 "./js/chunk-vendors.e89c98a2.js",
@@ -89,45 +88,45 @@ self.addEventListener('fetch', function(event) {
 //     workbox.navigationPreload.enable();
 // }
 console.log(`Workbox is loaded`);
-if (workbox) {
-
-    // const bgSyncPlugin = new workbox.backgroundSync.Plugin(QUEUE_NAME, {
-    //     maxRetentionTime: 24 * 60 // Retry for max of 24 Hours (specified in minutes)
-    // });
-    // const networkOnlyStrategy = new workbox.strategies.NetworkOnly({
-    //     plugins: [bgSyncPlugin],
-    // });
-    // workbox.routing.registerRoute(
-    //     new RegExp('/*'),
-    //     new workbox.strategies.StaleWhileRevalidate({
-    //         cacheName: CACHE_VERSION,
-    //         plugins: [
-    //             bgSyncPlugin
-    //         ]
-    //     })
-    // );
-    workbox.routing.registerRoute(
-        new RegExp('/*'),
-        new workbox.strategies.CacheFirst({
-            cacheName: CACHE_VERSION
-        })
-    );
-
-    workbox.loadModule('workbox-cacheable-response');
-    workbox.loadModule('workbox-range-requests');
-
-    // workbox.routing.registerRoute(
-    //     /.*\.mp3/,
-    //     new workbox.strategies.CacheFirst({
-    //         cacheName: CACHE_VERSION,
-    //         plugins: [
-    //             new workbox.cacheableResponse.CacheableResponsePlugin({statuses: [200]}),
-    //             new workbox.rangeRequests.RangeRequestsPlugin(),
-    //         ],
-    //     }),
-    // );
-
-}
-else {
-    console.log(`Workbox didn't load`);
-}
+// if (workbox) {
+//
+//     // const bgSyncPlugin = new workbox.backgroundSync.Plugin(QUEUE_NAME, {
+//     //     maxRetentionTime: 24 * 60 // Retry for max of 24 Hours (specified in minutes)
+//     // });
+//     // const networkOnlyStrategy = new workbox.strategies.NetworkOnly({
+//     //     plugins: [bgSyncPlugin],
+//     // });
+//     // workbox.routing.registerRoute(
+//     //     new RegExp('/*'),
+//     //     new workbox.strategies.StaleWhileRevalidate({
+//     //         cacheName: CACHE_VERSION,
+//     //         plugins: [
+//     //             bgSyncPlugin
+//     //         ]
+//     //     })
+//     // );
+//     workbox.routing.registerRoute(
+//         new RegExp('/*'),
+//         new workbox.strategies.CacheFirst({
+//             cacheName: CACHE_VERSION
+//         })
+//     );
+//
+//     workbox.loadModule('workbox-cacheable-response');
+//     workbox.loadModule('workbox-range-requests');
+//
+//     // workbox.routing.registerRoute(
+//     //     /.*\.mp3/,
+//     //     new workbox.strategies.CacheFirst({
+//     //         cacheName: CACHE_VERSION,
+//     //         plugins: [
+//     //             new workbox.cacheableResponse.CacheableResponsePlugin({statuses: [200]}),
+//     //             new workbox.rangeRequests.RangeRequestsPlugin(),
+//     //         ],
+//     //     }),
+//     // );
+//
+// }
+// else {
+//     console.log(`Workbox didn't load`);
+// }
