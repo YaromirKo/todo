@@ -20,8 +20,8 @@ self.addEventListener('install', function(e) {
     e.waitUntil(
         caches.open(CACHE_VERSION).then(function(cache) {
             return cache.addAll([
-                './',
-                './index.html'
+                "./",
+                "./index.html"
             ]);
         })
     );
