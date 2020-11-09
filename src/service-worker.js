@@ -20,6 +20,7 @@ self.addEventListener('install', function(e) {
     e.waitUntil(
         caches.open(CACHE_VERSION).then(function(cache) {
             return cache.addAll([
+                './',
                 'index.html'
             ]);
         })
@@ -28,19 +29,32 @@ self.addEventListener('install', function(e) {
 
 
 
-
-self.addEventListener("activate", (event) => {
+self.addEventListener("activate", function(event) {
+    console.log("[Servicework] Activate");
     event.waitUntil(
-        caches.keys().then((cacheNames) => {
-            const promiseArr = cacheNames.map((item) => {
-                if (item !== CACHE_VERSION) {
-                    return caches.delete(item);
+        caches.keys().then(function(keyList) {
+            return Promise.all(keyList.map(function(key) {
+                if (key !== CACHE_VERSION) {
+                    console.log("[ServiceWorker] Removing old cache shell", key);
+                    return caches.delete(key);
                 }
-            });
-            return Promise.all(promiseArr);
+            }));
         })
     );
 });
+
+// self.addEventListener("activate", (event) => {
+//     event.waitUntil(
+//         caches.keys().then((cacheNames) => {
+//             const promiseArr = cacheNames.map((item) => {
+//                 if (item !== CACHE_VERSION) {
+//                     return caches.delete(item);
+//                 }
+//             });
+//             return Promise.all(promiseArr);
+//         })
+//     );
+// });
 
 
 self.addEventListener('fetch', function(event) {
