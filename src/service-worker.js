@@ -21,7 +21,11 @@ self.addEventListener('install', function(e) {
         caches.open(CACHE_VERSION).then(function(cache) {
             return cache.addAll([
                 "./",
-                "./index.html"
+                "./index.html",
+                "./css/app.14a6d29b.css",
+                "./js/app.6e0b4853.js",
+                "./js/chunk-vendors.e89c98a2.js",
+                "./manifest.json"
             ]);
         })
     );
