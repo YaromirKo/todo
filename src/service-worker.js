@@ -56,73 +56,73 @@ self.addEventListener("activate", function(event) {
 //     );
 // });
 
-self.addEventListener("fetch", (event) => {
-    console.log("[ServiceWorker] Fetch");
-    event.respondWith(
-        caches.match(event.request).then(function(response) {
-            return response || fetch(event.request);
-        })
-    );
-
-});
-
-// self.addEventListener('fetch', function(event) {
-//     console.log(event.request.url);
-//
-//     event.waitUntil(
+// self.addEventListener("fetch", (event) => {
+//     console.log("[ServiceWorker] Fetch");
+//     event.respondWith(
 //         caches.match(event.request).then(function(response) {
 //             return response || fetch(event.request);
 //         })
 //     );
+//
 // });
 
+self.addEventListener('fetch', function(event) {
+    console.log(event.request.url);
+
+    event.waitUntil(
+        caches.match(event.request).then(function(response) {
+            return response || fetch(event.request);
+        })
+    );
+});
 
 
 
 
-// if (workbox.navigationPreload.isSupported()) {
-//     workbox.navigationPreload.enable();
-// }
-// console.log(`Workbox is loaded`);
-// if (workbox) {
-//
-//     // const bgSyncPlugin = new workbox.backgroundSync.Plugin(QUEUE_NAME, {
-//     //     maxRetentionTime: 24 * 60 // Retry for max of 24 Hours (specified in minutes)
-//     // });
-//     // const networkOnlyStrategy = new workbox.strategies.NetworkOnly({
-//     //     plugins: [bgSyncPlugin],
-//     // });
-//     // workbox.routing.registerRoute(
-//     //     new RegExp('/*'),
-//     //     new workbox.strategies.StaleWhileRevalidate({
-//     //         cacheName: CACHE_VERSION,
-//     //         plugins: [
-//     //             bgSyncPlugin
-//     //         ]
-//     //     })
-//     // );
-//     workbox.routing.registerRoute(
-//         new RegExp('/*'),
-//         new workbox.strategies.CacheFirst({
-//             cacheName: CACHE_VERSION
-//         })
-//     );
-//
-//     workbox.loadModule('workbox-cacheable-response');
-//     workbox.loadModule('workbox-range-requests');
-//
-//     // workbox.routing.registerRoute(
-//     //     /.*\.mp3/,
-//     //     new workbox.strategies.CacheFirst({
-//     //         cacheName: CACHE_VERSION,
-//     //         plugins: [
-//     //             new workbox.cacheableResponse.CacheableResponsePlugin({statuses: [200]}),
-//     //             new workbox.rangeRequests.RangeRequestsPlugin(),
-//     //         ],
-//     //     }),
-//     // );
-//
-// }
-// else {
-//     console.log(`Workbox didn't load`);
-// }
+
+if (workbox.navigationPreload.isSupported()) {
+    workbox.navigationPreload.enable();
+}
+console.log(`Workbox is loaded`);
+if (workbox) {
+
+    // const bgSyncPlugin = new workbox.backgroundSync.Plugin(QUEUE_NAME, {
+    //     maxRetentionTime: 24 * 60 // Retry for max of 24 Hours (specified in minutes)
+    // });
+    // const networkOnlyStrategy = new workbox.strategies.NetworkOnly({
+    //     plugins: [bgSyncPlugin],
+    // });
+    // workbox.routing.registerRoute(
+    //     new RegExp('/*'),
+    //     new workbox.strategies.StaleWhileRevalidate({
+    //         cacheName: CACHE_VERSION,
+    //         plugins: [
+    //             bgSyncPlugin
+    //         ]
+    //     })
+    // );
+    workbox.routing.registerRoute(
+        new RegExp('/*'),
+        new workbox.strategies.CacheFirst({
+            cacheName: CACHE_VERSION
+        })
+    );
+
+    workbox.loadModule('workbox-cacheable-response');
+    workbox.loadModule('workbox-range-requests');
+
+    // workbox.routing.registerRoute(
+    //     /.*\.mp3/,
+    //     new workbox.strategies.CacheFirst({
+    //         cacheName: CACHE_VERSION,
+    //         plugins: [
+    //             new workbox.cacheableResponse.CacheableResponsePlugin({statuses: [200]}),
+    //             new workbox.rangeRequests.RangeRequestsPlugin(),
+    //         ],
+    //     }),
+    // );
+
+}
+else {
+    console.log(`Workbox didn't load`);
+}
