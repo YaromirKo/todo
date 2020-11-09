@@ -3,7 +3,7 @@
 // workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
-const CACHE_VERSION  = 'v1.8.11.2020' //Change this value every time before you build
+const CACHE_VERSION  = 'v1.9.11.2020' //Change this value every time before you build
 
 self.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'SKIP_WAITING') {
@@ -21,8 +21,7 @@ self.addEventListener('install', function(e) {
         caches.open(CACHE_VERSION).then(function(cache) {
             return cache.addAll([
                 './',
-                './index.html',
-                'index.html'
+                './index.html'
             ]);
         })
     );
@@ -62,7 +61,6 @@ self.addEventListener('fetch', function(event) {
 // if (workbox.navigationPreload.isSupported()) {
 //     workbox.navigationPreload.enable();
 // }
-const QUEUE_NAME = "bgSyncQueue";
 console.log(`Workbox is loaded`);
 if (workbox) {
 
@@ -91,16 +89,16 @@ if (workbox) {
     workbox.loadModule('workbox-cacheable-response');
     workbox.loadModule('workbox-range-requests');
 
-    workbox.routing.registerRoute(
-        /.*\.mp3/,
-        new workbox.strategies.CacheFirst({
-            cacheName: CACHE_VERSION,
-            plugins: [
-                new workbox.cacheableResponse.CacheableResponsePlugin({statuses: [200]}),
-                new workbox.rangeRequests.RangeRequestsPlugin(),
-            ],
-        }),
-    );
+    // workbox.routing.registerRoute(
+    //     /.*\.mp3/,
+    //     new workbox.strategies.CacheFirst({
+    //         cacheName: CACHE_VERSION,
+    //         plugins: [
+    //             new workbox.cacheableResponse.CacheableResponsePlugin({statuses: [200]}),
+    //             new workbox.rangeRequests.RangeRequestsPlugin(),
+    //         ],
+    //     }),
+    // );
 
 }
 else {
