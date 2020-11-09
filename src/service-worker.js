@@ -3,7 +3,7 @@
 // workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
-const CACHE_VERSION  = 'v1.9.11.2020.5' //Change this value every time before you build
+const CACHE_VERSION  = 'v1.9.11.2020.6' //Change this value every time before you build
 
 self.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'SKIP_WAITING') {
@@ -80,9 +80,9 @@ self.addEventListener('fetch', function(event) {
 
 
 
-if (workbox.navigationPreload.isSupported()) {
-    workbox.navigationPreload.enable();
-}
+// if (workbox.navigationPreload.isSupported()) {
+//     workbox.navigationPreload.enable();
+// }
 console.log(`Workbox is loaded`);
 if (workbox) {
 
