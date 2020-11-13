@@ -52,7 +52,9 @@ export default {
             saveData(state)
         },
         updateToDo(state, payload) {
-            state.data.find(item => item._id === payload._id).text = payload.text.trim()
+            if (payload.mode !== 'checkbox') {
+                state.data.find(item => item._id === payload._id).text = payload.text.trim()
+            }
             state.data.find(item => item._id === payload._id).date = payload.date
             saveData(state)
         },
@@ -88,16 +90,25 @@ export default {
                     }))
             }
         },
-        updateToDo({commit}, {event, item}) {
-            let newText = event.target.innerText.trim()
-            let oldText = item.text
-            if (newText != '' && newText !== oldText) {
-                const _payload = {
-                    text: newText,
-                    _id: item._id,
-                    date: Date.now()
+        updateToDo({commit}, payload) {
+            let _payload = {
+                _id: payload.item._id,
+                date: Date.now(),
+            }
+            if (payload.mode === 'checkbox') {
+                _payload.status = payload.item.status
+            } else {
+                let newText = payload.event.target.innerText.trim()
+                let oldText = payload.item.text
+                if (newText != '' && newText !== oldText) {
+                    _payload.text = newText
                 }
-                commit('updateToDo', _payload)
+            }
+            if (Object.entries(_payload).length !== 0) {
+                commit('updateToDo', {
+                    ..._payload,
+                    mode: payload.mode
+                })
                 middlewareUserCheck(()=>api().put('/api/todo/update', _payload)
                     .catch(err => console.log(err)))
             }
