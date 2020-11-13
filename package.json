@@ -1,6 +1,6 @@
 {
   "name": "todo",
-  "version": "1.14.11.2020",
+  "version": "1.14.11.2020.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

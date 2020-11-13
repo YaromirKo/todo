@@ -104,7 +104,7 @@ export default {
                     _payload.text = newText
                 }
             }
-            if (Object.entries(_payload).length !== 0) {
+            if (Object.entries(_payload).length >= 3) {
                 commit('updateToDo', {
                     ..._payload,
                     mode: payload.mode
