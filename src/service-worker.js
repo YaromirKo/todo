@@ -3,7 +3,7 @@
 // workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
-const CACHE_VERSION  = 'v1.14.11.2020.1' //Change this value every time before you build
+const CACHE_VERSION  = 'v1.21.309.1.12' //Change this value every time before you build
 
 self.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'SKIP_WAITING') {
