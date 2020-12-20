@@ -9,8 +9,9 @@
 
   <div class="flex justify-end pr-5 mt-6" v-if="$props.tab === 2 && getToDos.length">
     <button @click="deleteToDo('all')" class="flex items-center text-white rounded-input-text text-xs bg-red-500 px-5 py-2 focus:outline-none">
-      <span class="material-icons cursor-pointer text-white">delete_outline</span>
-      delete all
+      <span class="btn_delete"></span>
+<!--      <span class="material-icons cursor-pointer text-white">delete_outline</span>-->
+<!--      delete all-->
     </button>
   </div>
 
@@ -22,7 +23,8 @@
           <pre :key="updatePre" :contenteditable="$props.tab !== 2 && !item.status" @blur="editContent($event, item)" :id="index"
                class="leading-5 outline-none" :class="{'line-through': item.status}">{{item.text}}</pre>
         </div>
-        <div v-if="$props.tab !== 0" @click="deleteToDo(item._id)" class="material-icons cursor-pointer">delete_outline</div>
+        <span v-if="$props.tab !== 0" @click="deleteToDo(item._id)" class="btn_delete cursor-pointer"></span>
+<!--        <div v-if="$props.tab !== 0" @click="deleteToDo(item._id)" class="material-icons cursor-pointer">delete_outline</div>-->
       </li>
     </transition-group>
   </ul>
@@ -85,5 +87,11 @@ pre {
   /* .slide-fade-leave-active below version 2.1.8 */ {
   transform: translateX(10px);
   opacity: 0;
+}
+.btn_delete {
+  width: 23px;
+  height: 23px;
+  background-size: 23px;
+  background: url("../../assets/icons/baseline_delete_outline_white_18dp.png") no-repeat;
 }
 </style>

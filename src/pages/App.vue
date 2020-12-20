@@ -7,8 +7,8 @@
   </div>
 
   <teleport to="body">
-    <Modal v-model:show="updateExists" class="flex items-center justify-center">
-      <div @click="refreshApp" class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto text-center">
+    <Modal v-model:show="updateExists" class="flex items-center justify-center bg-green-800">
+      <div @click="refreshApp" class="background modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto text-center">
         <div class="p-6">An update is available, press me :)</div>
       </div>
     </Modal>
@@ -29,7 +29,7 @@ export default {
     return {
       refreshing: false,
       registration: null,
-      updateExists: false,
+      updateExists: true,
     }
   },
   created() {
@@ -95,5 +95,8 @@ body {
   -webkit-text-size-adjust:none;             /* prevent webkit from resizing text to fit */
   -webkit-tap-highlight-color:rgba(0,0,0,0); /* prevent tap highlight color / shadow */
   /*-webkit-user-select:none;                  !* prevent copy paste, to allow, change 'none' to 'text' *!*/
+}
+.background {
+  background: radial-gradient(ellipse at bottom, #2a922a 0%, #f86969 100%)
 }
 </style>
