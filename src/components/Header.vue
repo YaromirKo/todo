@@ -199,8 +199,8 @@ export default {
   height: 23px;
   background-size: 23px;
   background: url("../assets/hat_mini.png") no-repeat;
-  margin-left: -6px;
-  margin-bottom: -15px;
+  margin-left: -8px;
+  margin-bottom: -14px;
 }
 
 @function random_range($min, $max) {
