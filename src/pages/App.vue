@@ -29,7 +29,7 @@ export default {
     return {
       refreshing: false,
       registration: null,
-      updateExists: true,
+      updateExists: false,
     }
   },
   created() {
