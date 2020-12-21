@@ -1,4 +1,5 @@
 <template>
+  <Snowfall/>
   <Header/>
   <ToDo/>
 </template>
@@ -7,10 +8,12 @@
 import Header from "@/components/Header";
 import ToDo from "@/components/todo/ToDo";
 import {store} from "@/store";
+import Snowfall from "../components/Snowfall";
 
 export default {
   name: "index",
   components: {
+    Snowfall,
     Header,
     ToDo,
   },
