@@ -1,5 +1,5 @@
 <template>
-  <tabs>
+  <tabs class="h-screen">
     <tab title="All" active>
       <ToDoBody :tab="0"/>
     </tab>

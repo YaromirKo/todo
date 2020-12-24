@@ -1,10 +1,39 @@
 <template>
-  <div v-if="$props.tab !== 2" class="flex justify-around mt-4">
-    <textarea  placeholder="new todo..." class="resize-none sm:w-4/5 w-10/12 rounded-input-text px-2 py-4 bg-gray-800 text-white focus:border-blue-200 outline-none"
-               @keyup="check($event)"
-               v-model.trim="toDo" rows="1" autofocus></textarea>
-    <div>
-      <button @click="setToDo" class="text-white rounded-input-text bg-blue-500 px-10 py-4 focus:outline-none">Add</button>
+  <div v-if="$props.tab !== 2" class="flex justify-center mt-4 sticky top-0">
+    <div class="flex-col md:w-10/12 w-full">
+      <div v-if="openBar" class="flex justify-between px-4 py-2 bg-gray-800 rounded-t-input-text">
+        <select class="w-1/2 text-white bg-blue-800 rounded outline-none">
+          <option value="note" selected>Note</option>
+          <option value="todo">Todo</option>
+        </select>
+        <div class="inline-flex">
+          <div @click="openBar=false" class="w-8 h-8 mx-2 border-solid border-2 rounded border-red-400 text-red-400 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </div>
+          <div class="w-8 h-8 mx-2 border-solid border-2 rounded border-green-400 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div v-if="openBar" class="px-4 bg-gray-800 text-white">
+        <input v-model.trim="test" class="md:w-1/2 py-2 border-b-2 border-teal-500 appearance-none bg-transparent w-full leading-tight focus:outline-none" type="search" placeholder="title..." list="data" />
+        <datalist id="data">
+          <option value="HTML" />
+          <option value="CSS" />
+          <option value="JavaScript" />
+        </datalist>
+      </div>
+      <textarea  placeholder="new todo..."
+                 class="w-full resize-none rounded-b-input-text px-2 py-4 bg-gray-800 text-white outline-none"
+                 @focus="openBar=true"
+                 v-model.trim="toDo" rows="1"></textarea>
+      <!--    <div>-->
+      <!--      <button @click="setToDo" class="text-white rounded-input-text bg-blue-500 px-10 py-4 focus:outline-none">Add</button>-->
+      <!--    </div>-->
     </div>
   </div>
 
@@ -33,7 +62,7 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { mapActions } from 'vuex';
 import { store } from "@/store";
 
@@ -61,26 +90,28 @@ export default {
       updatePre.value = !updatePre.value
     }
 
+    const openBar = ref(false)
+    const test = ref('')
     function check(event) {
       console.log(event)
     }
 
-    // onMounted(() => {
-    //   const textarea = document.querySelector('textarea');
-    //
-    //   textarea.addEventListener('keyup', function(e, a) {
-    //     console.log(e, a)
-    //     if (this.scrollTop > 0) {
-    //       this.style.height = this.scrollHeight + "px";
-    //     }
-    //     if (e.target.value == '') {
-    //       this.style.height = '50px'
-    //     }
-    //   });
-    // })
+    onMounted(() => {
+      const textarea = document.querySelector('textarea');
+
+      textarea.addEventListener('keyup', function(e, a) {
+        console.log(e, a)
+        if (this.scrollTop > 0 && e.target.clientHeight < 400 ) {
+          this.style.height = this.scrollHeight + "px";
+        }
+        if (e.target.value == '') {
+          this.style.height = '55px'
+        }
+      });
+    })
 
     return {
-      toDo, updatePre,
+      toDo, updatePre, openBar, test,
       getToDos,
       check,
       setToDo, editContent, ...mapActions(['deleteToDo', 'updateToDo'])
