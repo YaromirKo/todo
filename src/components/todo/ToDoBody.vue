@@ -1,6 +1,7 @@
 <template>
   <div v-if="$props.tab !== 2" class="flex justify-around mt-4">
     <textarea  placeholder="new todo..." class="resize-none sm:w-4/5 w-10/12 rounded-input-text px-2 py-4 bg-gray-800 text-white focus:border-blue-200 outline-none"
+               @keyup="check($event)"
                v-model.trim="toDo" rows="1" autofocus></textarea>
     <div>
       <button @click="setToDo" class="text-white rounded-input-text bg-blue-500 px-10 py-4 focus:outline-none">Add</button>
@@ -9,9 +10,9 @@
 
   <div class="flex justify-end pr-5 mt-6" v-if="$props.tab === 2 && getToDos.length">
     <button @click="deleteToDo('all')" class="flex items-center text-white rounded-input-text text-xs bg-red-500 px-5 py-2 focus:outline-none">
-      <span class="btn_delete"></span>
-<!--      <span class="material-icons cursor-pointer text-white">delete_outline</span>-->
-<!--      delete all-->
+      <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+      </svg>
     </button>
   </div>
 
@@ -23,8 +24,9 @@
           <pre :key="updatePre" :contenteditable="$props.tab !== 2 && !item.status" @blur="editContent($event, item)" :id="index"
                class="leading-5 outline-none" :class="{'line-through': item.status}">{{item.text}}</pre>
         </div>
-        <span v-if="$props.tab !== 0" @click="deleteToDo(item._id)" class="btn_delete cursor-pointer"></span>
-<!--        <div v-if="$props.tab !== 0" @click="deleteToDo(item._id)" class="material-icons cursor-pointer">delete_outline</div>-->
+        <svg v-if="$props.tab !== 0" @click="deleteToDo(item._id)" class="h-5 w-5 cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+        </svg>
       </li>
     </transition-group>
   </ul>
@@ -59,9 +61,28 @@ export default {
       updatePre.value = !updatePre.value
     }
 
+    function check(event) {
+      console.log(event)
+    }
+
+    // onMounted(() => {
+    //   const textarea = document.querySelector('textarea');
+    //
+    //   textarea.addEventListener('keyup', function(e, a) {
+    //     console.log(e, a)
+    //     if (this.scrollTop > 0) {
+    //       this.style.height = this.scrollHeight + "px";
+    //     }
+    //     if (e.target.value == '') {
+    //       this.style.height = '50px'
+    //     }
+    //   });
+    // })
+
     return {
       toDo, updatePre,
       getToDos,
+      check,
       setToDo, editContent, ...mapActions(['deleteToDo', 'updateToDo'])
     }
   }
