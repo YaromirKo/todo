@@ -148,8 +148,10 @@ export default {
   height: 23px;
   background-size: 23px;
   background: url("../assets/hat_mini.png") no-repeat;
-  margin-left: -8px;
-  margin-bottom: -14px;
+  margin-left: -13px;
+  margin-bottom: -16px;
+  z-index: 1;
+  transform: rotate(-15deg);
 }
 
 </style>
