@@ -1,7 +1,7 @@
 <template>
-    <div v-if="isActive">
-      <slot></slot>
-    </div>
+<!--    <div v-if="isActive">-->
+      <slot v-if="isActive"></slot>
+<!--    </div>-->
 </template>
 
 <script>

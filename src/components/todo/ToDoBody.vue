@@ -60,20 +60,6 @@ export default {
       updatePre.value = !updatePre.value
     }
 
-    // onMounted(() => {
-    //   const textarea = document.querySelector('textarea');
-    //
-    //   textarea.addEventListener('keyup', function(e, a) {
-    //     console.log(e, a)
-    //     if (this.scrollTop > 0 && e.target.clientHeight < 400 ) {
-    //       this.style.height = this.scrollHeight + "px";
-    //     }
-    //     if (e.target.value == '') {
-    //       this.style.height = '55px'
-    //     }
-    //   });
-    // })
-
     return {
       toDo, updatePre,
       getToDos,

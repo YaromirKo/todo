@@ -30,10 +30,11 @@ export default {
             state.data = todos
         },
         setToDo(state, todo) {
-            if (todo != '') {
-                state.data.push(todo)
-            }
-            saveData(state)
+            console.log(todo)
+            // if (todo != '') {
+            //     state.data.push(todo)
+            // }
+            // saveData(state)
         },
         deleteToDo(state, _id) {
             state.delDataPromise.push({_id})
@@ -76,6 +77,7 @@ export default {
             )
         },
         setToDo({commit}, text) {
+            console.log(text.text.split('\n').filter(item=>item.trim().length > 0))
             if (text != '') {
                 let user = {
                     text,

@@ -15,7 +15,7 @@
       </button>
     </div>
     <div>
-      <div class="new-year"></div>
+      <div v-if="show" class="new-year"></div>
       <p class="text-xl font-bold leading-10">todo</p>
     </div>
     <transition
@@ -105,6 +105,7 @@ export default {
     Footer
   },
   setup() {
+    const show = [0, 11].includes((new Date()).getMonth())
     const notify = injectNotification()
     const isOpen = ref(false)
 
@@ -133,6 +134,7 @@ export default {
     }
 
     return {
+      show,
       store,
       isOpen, logged,
       close, logout
