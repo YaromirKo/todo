@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import {ref, computed, watch, onMounted} from 'vue';
+import {ref, computed, watch} from 'vue';
 import { store } from "@/store";
 export default {
   name: "Creator",
@@ -75,19 +75,16 @@ export default {
     const textareaHeight = ref('0')
     function resize(c, prevC) {
       const _c = c?.split('\n').length || 0
-      console.log(_c)
       const _prevC = prevC?.split('\n').length || 0
-      console.log(_prevC)
-      console.log(textareaRef.value.clientHeight)
       if (_c < _prevC && textareaRef.value.clientHeight >= textareaRef.value.scrollHeight) {
         textareaHeight.value = `${textareaRef.value.clientHeight - 24*(_prevC - _c)}px`
       } else if (textareaRef.value.scrollHeight < window.screen.height/2) {
         textareaHeight.value = `${textareaRef.value.scrollHeight}px`
+      } else if (_c <= 1) {
+        textareaHeight.value = `${24}px`
       }
     }
-    onMounted(() => resize())
     watch(text, (c, prevC) => {
-      console.log('test')
       resize(c, prevC)
     })
     const textareaStyle = computed(() => `min-height: ${textareaHeight.value}`)
