@@ -78,7 +78,7 @@ export default {
     }))
 
     function register(credential) {
-      api().post('/api/auth/register', credential)
+      api.post('/api/auth/register', credential)
           .then(res => {
             notify.set({
               mes: res.data.message,

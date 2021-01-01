@@ -20,7 +20,7 @@
         </div>
       </div>
       <div v-if="openBar" class="px-4 pb-2 bg-gray-800 text-white">
-        <input v-model.lazy.trim="title" class="md:w-1/2 py-2 pl-1 border-b-2 border-teal-500 appearance-none bg-transparent w-full leading-tight focus:outline-none" type="text" placeholder="title..." list="data" />
+        <input v-model.lazy.trim="group" class="md:w-1/2 py-2 pl-1 border-b-2 border-teal-500 appearance-none bg-transparent w-full leading-tight focus:outline-none" type="text" placeholder="group..." list="data" />
         <datalist id="data">
           <option v-for="(item, index) in datalist" :key="index">{{item}}</option>
         </datalist>
@@ -44,7 +44,7 @@ export default {
   name: "Creator",
   setup() {
     const openBar = ref(false)
-    const title = ref('')
+    const group = ref('')
     const text = ref('')
     const mode = ref('note')
     const modeOptions = [
@@ -60,14 +60,14 @@ export default {
 
     function cancel() {
       textareaRef.value.blur()
-      title.value = text.value = ''
+      group.value = text.value = ''
       openBar.value = false
     }
     function add() {
-      store.dispatch('setToDo', {
-        text: text.value,
+      store.dispatch('newToDo', {
         mode: mode.value,
-        title: title.value
+        group: group.value,
+        text: text.value
       })
       cancel()
     }
@@ -92,7 +92,7 @@ export default {
     return {
       textareaRef, textareaStyle,
       modeOptions, datalist,
-      openBar, text, title, mode,
+      openBar, text, group, mode,
       cancel, add
     }
   }
