@@ -13,6 +13,9 @@ module.exports = {
     minHeight: {
       '40': '40px'
     },
+    minWidth: {
+      '3': '40px'
+    },
     extend: {
       gridTemplateRows: {
         'layout': 'auto 1fr auto'

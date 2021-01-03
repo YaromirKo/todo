@@ -1,6 +1,6 @@
 <template>
   <div v-if="show">
-    <div v-for="index in count" :key="index" class="snow"></div>
+<!--    <div v-for="index in count" :key="index" class="snow"></div>-->
   </div>
 </template>
 
