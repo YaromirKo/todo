@@ -1,7 +1,8 @@
 <template>
   <!--Modal-->
   <transition name="fade">
-    <div v-if="show" @click.self="close" class="fixed w-full h-full top-0 left-0 bg-gray-800 bg-opacity-25">
+    <div v-if="show" @click.self="close"
+         :class="`fixed w-full h-full top-0 left-0 bg-${style.bgColor} bg-${style.bgOpacity}`">
       <slot></slot>
     </div>
   </transition>
@@ -14,6 +15,15 @@ export default {
     show: {
       type: Boolean,
       default: false
+    },
+    style: {
+      type: Object,
+      default: () => {
+        return {
+          bgColor: 'gray-800',
+          bgOpacity: 'opacity-25'
+        }
+      }
     },
     overflow: {
       type: Boolean,
