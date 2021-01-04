@@ -17,6 +17,9 @@ module.exports = {
       '3': '40px'
     },
     extend: {
+      colors: {
+        creator: '#383838',
+      },
       gridTemplateRows: {
         'layout': 'auto 1fr auto'
       },

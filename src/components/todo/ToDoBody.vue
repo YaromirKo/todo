@@ -1,6 +1,5 @@
 <template>
   <div v-if="$props.tab !== 2" class="flex justify-center mt-4 sticky top-0">
-    <Creator/>
   </div>
 
   <div class="flex justify-end pr-5 mt-6" v-if="$props.tab === 2 && getToDos.length">
@@ -31,13 +30,9 @@
 import { ref, computed } from 'vue';
 import { mapActions } from 'vuex';
 import { store } from "@/store";
-import Creator from "./Creator";
 
 export default {
   name: "ToDoBody",
-  components: {
-    Creator
-  },
   props: {
     tab: {
       type: Number

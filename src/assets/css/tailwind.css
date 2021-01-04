@@ -8,3 +8,11 @@
 .border-active {
     @apply rounded-t border-b-4 border-blue-300 transition ease-in-out duration-300;
 }
+
+button:focus {
+    @apply outline-none
+}
+
+.border-btn-active {
+    @apply border-2 rounded border-green-400 transition ease-in-out duration-300;
+}
